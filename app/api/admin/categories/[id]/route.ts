@@ -5,8 +5,7 @@ import { Category } from "@/lib/models/Category" // ✅ important fix for "categ
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   try {
     await connectDB()
-    const category = await Category.findById(params.id).populate("parentCategory")
-    console.log(category)
+    const category = await Category.findById(params?.id).populate("parentCategory")
     if (!category) {
       return NextResponse.json({ error: "Category not found" }, { status: 404 })
     }

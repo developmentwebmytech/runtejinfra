@@ -72,7 +72,7 @@ export default function About() {
          
           <div className="flex justify-center">
             <Image
-              src="/about/mission.png"
+              src="/about/mission.jpg"
               alt="Vision Mission Illustration"
               width={400}
               height={300}
@@ -133,7 +133,7 @@ export default function About() {
 
         <div className="grid gap-6">
           <div className="bg-white shadow-md rounded-xl p-6 border-l-4 border-blue-500">
-            <h3 className="text-xl font-semibold">GGG Enterprises</h3>
+            <h3 className="text-xl font-semibold">GG Enterprises</h3>
             <p className="text-sm text-gray-600">Proprietorship</p>
           </div>
 

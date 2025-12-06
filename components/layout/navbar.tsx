@@ -58,34 +58,17 @@ export default function Navbar() {
     {
       label: "ABOUT US",
       href: "/about",
-      hasDropdown: true,
-      dropdown: [
-        { label: "Know Our Story", href: "/ourstory" },
-        { label: "Know Our Founders", href: "/about/#founder" },
-        { label: "Vision, Mission & Core Values", href: "/about/#mission-vision" },
-        { label: "Group Pillars", href: "/about/#grouppillars" },
-        { label: "Company Profile", href: "/about/#companyprofile" },
-      ],
+     
     },
     {
       label: "JOIN US",
       href: "/joinus",
-      hasDropdown: true,
-      dropdown: [
-        { label: "Careers", href: "/joinus/#careers" },
-        { label: "Join Ambedessor", href: "/join/#joinambedessor" },
-        { label: "Join as a Team Member", href: "/join/#joinasateammember" },
-      ],
+    
     },
     {
       label: "CONTACT US",
       href: "/contact",
-      hasDropdown: true,
-      dropdown: [
-        { label: "Locate Us", href: "/contact/#location" },
-        { label: "Partner with Us", href: "/contact/#partner" },
-        { label: "Clientside Queries", href: "/contact/#queries" },
-      ],
+      
     },
   ];
 
@@ -94,7 +77,7 @@ export default function Navbar() {
       <div className="container">
         <nav className={`flex items-center justify-evenly px-16 py-3 text-black ${navbarClasses}`}>
           <Link href="/">
-            <div className="w-32 relative h-8 cursor-pointer">
+            <div className="w-32 relative h-15 cursor-pointer">
               <Image src="/tlogo.png" alt="Logo" fill style={{ objectFit: "contain" }} priority />
             </div>
           </Link>

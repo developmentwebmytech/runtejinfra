@@ -57,6 +57,11 @@ const items = [
     title:"Services",
     href: "/dashboard/service-management",
     icon: Star   ,
+  },
+  {
+    title:"Blogs",
+    href: "/dashboard/blogs",
+    icon: Star   ,
   }
 ]
 
