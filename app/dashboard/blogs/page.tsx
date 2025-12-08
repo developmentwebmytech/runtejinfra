@@ -111,8 +111,7 @@ export default function BlogsAdminPage() {
     setIsLoading(true)
     try {
       const response = await fetch(
-        `/api/admin/blogs?page=${pagination.page}&limit=${pagination.limit}${
-          searchTerm ? `&search=${encodeURIComponent(searchTerm)}` : ""
+        `/api/admin/blogs?page=${pagination.page}&limit=${pagination.limit}${searchTerm ? `&search=${encodeURIComponent(searchTerm)}` : ""
         }`,
       )
 
@@ -162,37 +161,42 @@ export default function BlogsAdminPage() {
     setDeleteDialogOpen(true)
   }
 
-  const confirmDelete = async () => {
-    if (!blogToDelete) return
+const confirmDelete = async () => {
+  if (!blogToDelete) return
 
-    try {
-      const response = await fetch(`/api/admin/blogs/${blogToDelete._id}`, {
-        method: "DELETE",
-      })
+  try {
+    // delete blog from DB
+    const response = await fetch(`/api/admin/blogs/${blogToDelete._id}`, {
+      method: "DELETE",
+    })
 
-      if (!response.ok) {
-        throw new Error("Failed to delete blog")
-      }
+    // delete image file
+    const deleteImage = await fetch("/api/upload-image", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fileName: blogToDelete.featured_image?.split("/").pop(),
+      }),
+    })
 
-      toast({
-        title: "Success",
-        description: "Blog deleted successfully",
-      })
+    toast({
+      title: "Success",
+      description: "Blog deleted",
+    })
 
-      // Refresh the blog list
-      fetchBlogs()
-    } catch (error) {
-      console.error("Error deleting blog:", error)
-      toast({
-        title: "Error",
-        description: "Failed to delete blog",
-        variant: "destructive",
-      })
-    } finally {
-      setDeleteDialogOpen(false)
-      setBlogToDelete(null)
-    }
+    fetchBlogs()
+  } catch (err) {
+    toast({
+      title: "Error",
+      description: "Delete failed",
+      variant: "destructive",
+    })
+  } finally {
+    setDeleteDialogOpen(false)
+    setBlogToDelete(null)
   }
+}
+
 
   return (
     <div className="space-y-6 p-8">

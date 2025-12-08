@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { writeFile, mkdir } from "fs/promises"
+import { writeFile, mkdir, unlink } from "fs/promises"
 import path from "path"
 import { v4 as uuidv4 } from "uuid"
 import { existsSync } from "fs"
@@ -10,7 +10,6 @@ export async function POST(request: Request) {
     const file = formData.get("file") as File | null
 
     if (!file) {
-      console.error("❌ No file provided in the request")
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 })
     }
 
@@ -21,15 +20,7 @@ export async function POST(request: Request) {
     const filePath = path.join(uploadDir, fileName)
 
     if (!existsSync(uploadDir)) {
-      try {
-        await mkdir(uploadDir, { recursive: true })
-      } catch (error) {
-        console.error("❌ Failed to create uploads directory:", error)
-        return NextResponse.json(
-          { error: "Server error: Failed to create uploads directory" },
-          { status: 500 }
-        )
-      }
+      await mkdir(uploadDir, { recursive: true })
     }
 
     const buffer = Buffer.from(await file.arrayBuffer())
@@ -43,7 +34,29 @@ export async function POST(request: Request) {
       fileName: fileName,
     })
   } catch (error) {
-    console.error("❌ Error in upload API:", error)
+    console.error("❌ Upload error:", error)
     return NextResponse.json({ error: "Upload failed" }, { status: 500 })
+  }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    const { fileName } = await request.json()
+
+    if (!fileName) {
+      return NextResponse.json({ error: "No file name provided" }, { status: 400 })
+    }
+
+    const filePath = path.join(process.cwd(), "public", "uploads", fileName)
+
+    await unlink(filePath)
+
+    return NextResponse.json({
+      success: true,
+      message: "File deleted",
+    })
+  } catch (error) {
+    console.error("❌ Delete error:", error)
+    return NextResponse.json({ error: "Delete failed" }, { status: 500 })
   }
 }

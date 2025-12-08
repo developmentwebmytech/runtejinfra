@@ -62,6 +62,11 @@ const items = [
     title:"Blogs",
     href: "/dashboard/blogs",
     icon: Star   ,
+  },
+  {
+    title:"Media",
+    href: "/dashboard/media",
+    icon: Star   ,
   }
 ]
 

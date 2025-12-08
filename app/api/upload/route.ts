@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { writeFile } from "fs/promises"
 import { join } from "path"
+import { unlink } from "fs/promises"
 
 export async function POST(request: NextRequest) {
   try {
@@ -43,5 +44,27 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Error uploading file:", error)
     return NextResponse.json({ error: "Failed to upload file" }, { status: 500 })
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const { filename } = await request.json()
+
+    if (!filename) {
+      return NextResponse.json({ error: "No filename given" }, { status: 400 })
+    }
+
+    const filePath = join(process.cwd(), "public/uploads", filename)
+
+    await unlink(filePath)
+
+    return NextResponse.json({
+      success: true,
+      message: "Image deleted"
+    })
+  } catch (error) {
+    console.error("Delete error:", error)
+    return NextResponse.json({ error: "Failed to delete image" }, { status: 500 })
   }
 }
