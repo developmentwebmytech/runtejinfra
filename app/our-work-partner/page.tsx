@@ -63,7 +63,7 @@ export default function OurWorkPartner() {
                     />
                   </div>
                   <p className="mt-2 text-sm text-gray-700 font-medium">{partner.name}</p>
-                  {/* <p className="text-xs text-gray-500">{partner.titleName}</p> */}
+                  <p className="text-xs text-gray-500">{partner.titleName}</p>
                 </div>
               ))}
             </div>

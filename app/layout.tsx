@@ -38,7 +38,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <SessionProvider>
           <LayoutContent>{children}</LayoutContent>
-          <Toaster position="bottom-right" richColors closeButton />
+          <Toaster position="bottom-right"  closeButton />
         </SessionProvider>
       </body>
     </html>

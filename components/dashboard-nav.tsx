@@ -56,7 +56,7 @@ const items = [
   {
     title:"Services",
     href: "/dashboard/service-management",
-    icon: Star   ,
+    icon: Package   ,
   },
   {
     title:"Blogs",
@@ -66,7 +66,12 @@ const items = [
   {
     title:"Media",
     href: "/dashboard/media",
-    icon: Star   ,
+    icon: Users   ,
+  },
+  {
+    title:"Work Partner",
+    href: "/dashboard/our-work-partner",
+    icon: BookOpenCheck   ,
   }
 ]
 
