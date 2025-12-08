@@ -66,10 +66,10 @@ export default function About() {
 
       {/* Vision & Mission Section */}
       <section ref={visionRef} id='vision-mission' className="relative z-10 bg-white px-6 md:px-12 lg:px-20 pt-16 pb-20 rounded-t-[2.5rem] -mt-10 shadow-xl">
-       
+
         <div className="max-w-8xl mx-auto grid grid-cols-2 sm:grid-cols-2  lg:grid-cols-2 gap-12 items-center">
-         
-         
+
+
           <div className="flex justify-center">
             <Image
               src="/about/mission.jpg"
@@ -184,9 +184,16 @@ export default function About() {
                 To be a leading brand in infrastructure development — known for customer satisfaction, innovation, and world-class project delivery across India.
               </p>
             </div>
+
+            <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-blue-600">
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Our Values</h3>
+              <p className="text-gray-700 text-sm leading-relaxed">
+                We are driven by integrity, quality, and transparent practices that build trust in everything we do. With a commitment to sustainability and customer satisfaction, we create infrastructure that supports stronger communities.
+              </p>
+            </div>
           </div>
 
-          
+
         </section>
 
 
