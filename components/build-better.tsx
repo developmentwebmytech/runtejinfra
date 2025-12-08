@@ -46,15 +46,16 @@ function Fourth() {
                             Build Better. Live Brighter.
                         </h1>
                         <p className="text-base md:text-lg leading-relaxed text-gray-700">
-                            Runtej Infra is driven by a vision to redefine urban, Rural, Industrial and Commercial living. —<br />
-                            Delivering excellence through innovation, and Modern Ideas.<br /> creating spaces that leave a lasting, positive impact on people and the planet. 
-                            that leave a lasting, positive impact on people and the planet.
+                            Runtej Infra is driven by a vision to redefine urban, Rural, Industrial and Commercial living.<br />
+                            Delivering excellence through innovation and Modern Ideas,<br />
+                            creating spaces that leave a lasting, positive impact on people and the planet.
                         </p>
                     </div>
 
                     {/* Right Image Section */}
                     <div ref={rightRef} className="flex justify-center lg:justify-end -mx-4 lg:pr-0">
-                        <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
+                        <div className="relative group w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
+
                             {/* Main Image */}
                             <div
                                 className="w-full h-[70vh] sm:h-[75vh] bg-cover bg-center rounded-2xl shadow-xl"
@@ -63,9 +64,15 @@ function Fourth() {
                                     zIndex: 8,
                                 }}
                             />
+
+                            {/* Hover Logo */}
+                            <div className="absolute top-2 right-2 bg-white rounded opacity-0 group-hover:opacity-100 transition-opacity shadow">
+                                <img src="/tlogo.png" alt="logo" width={30} height={30} />
+                            </div>
+
                             {/* Overlapping Floating Image */}
                             <div
-                                className="absolute hidden sm:block bg-cover  bg-center rounded-2xl shadow-2xl border-4 border-white"
+                                className="absolute hidden sm:block bg-cover bg-center rounded-2xl shadow-2xl border-4 border-white"
                                 style={{
                                     backgroundImage: 'url("/fourth2.jpg")',
                                     width: '60%',
@@ -81,8 +88,6 @@ function Fourth() {
                 </div>
             </div>
         </div>
-
-
     );
 }
 

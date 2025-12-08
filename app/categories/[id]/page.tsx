@@ -24,24 +24,18 @@ function CategoriesPage() {
   const [error, setError] = useState<string | null>(null)
   const [projectCounts, setProjectCounts] = useState<{ [key: string]: number }>({})
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true)
         setError(null)
 
-        // ✅ Fetch parent category (fix here)
         const parentRes = await axios.get(`/api/admin/categories/${id}`)
-        setParentCategory(parentRes.data) // ✅ FIXED
-        console.log("Parent Category:", parentRes.data)
+        setParentCategory(parentRes.data)
 
-        // ✅ Fetch subcategories
         const subRes = await axios.get(`/api/admin/categories?parentCategory=${id}`)
-
         setCategories(subRes.data.categories || [])
 
-        // 🔄 Fetch project count for each subcategory
         const counts: { [key: string]: number } = {}
 
         await Promise.all(
@@ -53,16 +47,13 @@ function CategoriesPage() {
               const filtered = data.filter((p: any) => p.propertyType?.toString() === category._id)
               counts[category._id] = filtered.length
             } catch (err) {
-              console.error(`Error fetching projects for category ${category._id}`, err)
               counts[category._id] = 0
             }
           })
         )
 
         setProjectCounts(counts)
-
       } catch (error) {
-        console.error("Failed to fetch data", error)
         setError("Failed to load category data")
       } finally {
         setLoading(false)
@@ -98,20 +89,16 @@ function CategoriesPage() {
 
   return (
     <div className="container mx-auto px-4 py-10">
-      {/* ✅ Parent Header Section */}
       {parentCategory && (
-        <div className="bg-green-100 px-6 py-6  rounded-md mb-10">
+        <div className="bg-green-100 px-6 py-6 rounded-md mb-10">
           <h1 className="text-3xl font-semibold mb-2">{parentCategory.name}</h1>
           <p className="text-sm text-gray-600 mb-2">Home / {parentCategory.name}</p>
           <p className="text-sm text-gray-800 max-w-4xl mb-4">
             {parentCategory.description || "No description available"}
           </p>
-
-
         </div>
       )}
 
-      {/* ✅ Subcategories Grid */}
       {categories.length === 0 ? (
         <div className="text-center py-12">
           <p className="text-gray-500 text-lg">No categories found</p>
@@ -119,8 +106,7 @@ function CategoriesPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[300px] justify-items-center">
           {categories.map((category, index) => {
-            const colSpan =
-              index % 6 === 0 || index % 6 === 5 ? "md:col-span-2" : "md:col-span-1"
+            const colSpan = index % 6 === 0 || index % 6 === 5 ? "md:col-span-2" : "md:col-span-1"
             const linkHref = `/projectlist/${category._id}`
 
             return (
@@ -135,14 +121,15 @@ function CategoriesPage() {
                     fill
                     className="object-cover rounded-md"
                   />
+
+                  {/* Hover Logo */}
+                  <div className="absolute top-2 right-2 bg-white rounded opacity-0 group-hover:opacity-100 transition-opacity shadow p-1">
+                    <Image src="/tlogo.png" alt="logo" width={28} height={28} />
+                  </div>
+
                   <div className="absolute inset-0 bg-opacity-40 flex flex-col justify-end p-5 text-black">
                     <h3 className="text-lg sm:text-xl font-semibold mb-1">{category.name}</h3>
-
-                    <p className="text-xs sm:text-sm">
-                      {projectCounts[category._id] ?? "Loading..."} Projects
-                    </p>
-
-
+                    <p className="text-xs sm:text-sm">{projectCounts[category._id] ?? "Loading..."} Projects</p>
                   </div>
                 </div>
               </Link>

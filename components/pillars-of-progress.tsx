@@ -50,15 +50,19 @@ export default function ThirdSection() {
           {/* 👆 Mobile: stack, Large: side-by-side */}
 
           {/* Left - Image */}
-          <div ref={imageRef} className="hover:scale-105 cursor-pointer">
+          <div ref={imageRef} className=" relative group hover:scale-105 cursor-pointer">
             <Image
               src="/third1.jpg"
               alt="Building"
               width={900}
               height={700}
               className="w-full h-auto rounded-md shadow-md"
-              // 👆 Responsive image scaling
+            // 👆 Responsive image scaling
             />
+
+            <div className="absolute rounded bg-white top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+              <Image src="/tlogo.png" alt="logo" width={30} height={30} />
+            </div>
           </div>
 
           {/* Right - Text Content */}
@@ -69,7 +73,7 @@ export default function ThirdSection() {
             </h2>
             <p className="text-black my-5  font-regular text-base md:text-lg text-justify">
               {/* 👆 md:pr-16 for larger screens only, safe for small */}
-             We create environment that nourishes the soul and enhances and upgrades daily life, where every moment is a celebration of living with purpose. We shape spaces and moments that elevate your lifestyle, making every day experiences extraordinary through Creative and thoughtful designs. 
+              We create environment that nourishes the soul and enhances and upgrades daily life, where every moment is a celebration of living with purpose. We shape spaces and moments that elevate your lifestyle, making every day experiences extraordinary through Creative and thoughtful designs.
             </p>
 
             <button className="border rounded px-6 py-2 text-sm text-white bg-green-600 hover:bg-green-700 transition cursor-pointer">
@@ -78,7 +82,7 @@ export default function ThirdSection() {
           </div>
         </div>
 
-        
+
 
       </div>
     </div>

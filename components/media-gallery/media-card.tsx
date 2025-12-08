@@ -25,7 +25,6 @@ export function MediaCard({ slug, title, image, category, viewCount, link }: Med
     if (link) {
       e.preventDefault()
       setIsRedirecting(true)
-      // Open link in new tab
       window.open(link, "_blank", "noopener,noreferrer")
       setIsRedirecting(false)
     }
@@ -37,14 +36,20 @@ export function MediaCard({ slug, title, image, category, viewCount, link }: Med
         className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group"
         onClick={handleCardClick}
       >
-        <div className="relative w-full h-64 bg-muted">
+        <div className="relative w-full h-64 bg-muted group">
           <Image
             src={image || "/placeholder.svg"}
             alt={title}
             fill
             className="object-cover group-hover:scale-105 transition-transform"
           />
-          <div className="absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded text-xs font-semibold">
+
+          {/* Hover Logo */}
+          <div className="absolute top-2 right-2 bg-white rounded opacity-0 group-hover:opacity-100 transition-opacity shadow">
+            <Image src="/tlogo.png" alt="logo" width={30} height={30} />
+          </div>
+
+          <div className="absolute top-2 left-2 bg-blue-500 text-white px-2 py-1 rounded text-xs font-semibold">
             Link
           </div>
         </div>
@@ -62,13 +67,18 @@ export function MediaCard({ slug, title, image, category, viewCount, link }: Med
   return (
     <Link href={`/media/${slug}`}>
       <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group">
-        <div className="relative w-full h-64 bg-muted">
+        <div className="relative w-full h-64 bg-muted group">
           <Image
             src={image || "/placeholder.svg"}
             alt={title}
             fill
             className="object-cover group-hover:scale-105 transition-transform"
           />
+
+          {/* Hover Logo */}
+          <div className="absolute top-2 right-2 bg-white rounded opacity-0 group-hover:opacity-100 transition-opacity shadow">
+            <Image src="/tlogo.png" alt="logo" width={30} height={30} />
+          </div>
         </div>
         <div className="p-4">
           <h3 className="font-semibold text-sm line-clamp-2">{title}</h3>

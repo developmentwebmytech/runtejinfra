@@ -6,7 +6,6 @@ import { gsap } from "gsap";
 export default function FirstSection() {
   const imageRef = useRef(null);
   const contentRef = useRef(null);
-  // floatingImage ref is no longer needed
 
   useEffect(() => {
     gsap.from(imageRef.current, {
@@ -35,8 +34,6 @@ export default function FirstSection() {
         toggleActions: "play none none none",
       },
     });
-
-    // Remove floatingImage animation
   }, []);
 
   return (
@@ -44,7 +41,10 @@ export default function FirstSection() {
       <div className="container mx-auto px-4 py-16 sm:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-30 items-center">
           {/* Left Image */}
-          <div ref={imageRef} className="hover:scale-105 transition-transform duration-300 cursor-pointer">
+          <div
+            ref={imageRef}
+            className="relative group hover:scale-105 transition-transform duration-300 cursor-pointer"
+          >
             <Image
               src="/first.jpg"
               alt="Building"
@@ -52,6 +52,11 @@ export default function FirstSection() {
               height={700}
               className="w-full h-auto rounded-md shadow-md"
             />
+
+            {/* Hover Logo (Same style as upper code) */}
+            <div className="absolute rounded bg-white top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+              <Image src="/tlogo.png" alt="logo" width={30} height={30} />
+            </div>
           </div>
 
           {/* Right Content */}
@@ -71,6 +76,5 @@ export default function FirstSection() {
         </div>
       </div>
     </div>
-
   );
 }
