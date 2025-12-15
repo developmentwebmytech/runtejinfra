@@ -1,24 +1,14 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
+import React, {  useState } from "react";
 import Image from "next/image";
 import { toast } from "sonner";
 
 export default function ContactPage() {
-  const sectionRef = useRef<HTMLMainElement>(null);
-  const formRef   = useRef<HTMLFormElement>(null);   // 👈 new ref
+    // 👈 new ref
   const [loading, setLoading] = useState(false);
 
-  // simple fade‑in
-  useEffect(() => {
-    gsap.from(sectionRef.current, {
-      y: 100,
-      opacity: 0,
-      duration: 1,
-      ease: "power3.out",
-    });
-  }, []);
+ 
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,7 +25,6 @@ export default function ContactPage() {
     setLoading(false);
 
     if (res.ok) {
-      formRef.current?.reset();        // ✅ safe: “?.”
       toast.success("Thank you! We'll reply soon.");
     } else {
       toast.error("Error – please try again.");
@@ -43,7 +32,7 @@ export default function ContactPage() {
   };
 
   return (
-    <main ref={sectionRef} className="bg-gray-50 min-h-screen">
+    <main  className="bg-gray-50 min-h-screen">
       {/* Hero */}
       <section className="relative w-full h-64 mb-12">
         <Image
@@ -72,8 +61,7 @@ export default function ContactPage() {
           Tell us what you need and our team will get back to you.
         </p>
 
-        <form
-          ref={formRef}                 // 👈 attach the ref
+        <form                // 👈 attach the ref
           onSubmit={handleSubmit}
           className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >

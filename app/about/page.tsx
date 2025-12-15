@@ -40,7 +40,7 @@ export default function About() {
     <main className="bg-[#f6f9fc] text-gray-800">
 
       {/* Top Section */}
-      <section ref={headerRef} className="bg-gradient-to-b from-[#002d42] to-[#005b74] text-white px-6 py-16">
+      <section className="bg-gradient-to-b from-[#002d42] to-[#005b74] text-white px-6 py-16">
         <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-between gap-10">
           {/* Text Content */}
           <div className="w-full lg:w-1/2 text-center lg:text-left">
@@ -65,7 +65,7 @@ export default function About() {
       </section>
 
       {/* Vision & Mission Section */}
-      <section ref={visionRef} id='vision-mission' className="relative z-10 bg-white px-6 md:px-12 lg:px-20 pt-16 pb-20 rounded-t-[2.5rem] -mt-10 shadow-xl">
+      <section  id='vision-mission' className="relative z-10 bg-white px-6 md:px-12 lg:px-20 pt-16 pb-20 rounded-t-[2.5rem] -mt-10 shadow-xl">
 
         <div className="max-w-8xl mx-auto grid grid-cols-2 sm:grid-cols-2  lg:grid-cols-2 gap-12 items-center">
 
@@ -97,7 +97,7 @@ export default function About() {
       </section>
 
       {/* Founder Story Section */}
-      <section ref={founderRef} id='founder' className="flex flex-col lg:flex-row items-center justify-center px-6 lg:px-20 py-20 gap-10">
+      <section  id='founder' className="flex flex-col lg:flex-row items-center justify-center px-6 lg:px-20 py-20 gap-10">
         <div className="w-full lg:w-1/2">
           <h1 className="text-4xl font-semibold mb-6">MEET OUR FOUNDER</h1>
           <p className="text-lg mb-4">
@@ -128,7 +128,7 @@ export default function About() {
       </section>
 
 
-      <div id='grouppillars' className="max-w-5xl px-2 mx-auto">
+      <div  className="max-w-5xl px-2 mx-auto">
         <h2 className="text-3xl font-bold mb-6 text-center">Group Pillars</h2>
 
         <div className="grid gap-6">
