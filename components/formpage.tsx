@@ -63,7 +63,7 @@ function FormPage() {
           <form className="space-y-6" onSubmit={handleSubmit}>
             {/* Personal Info */}
             <div>
-              <h3 className="font-semibold mb-2">Your Personal Information</h3>
+              <h3 className="font-semibold mb-2">Your Personal Information.</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <select
                   name="title"
