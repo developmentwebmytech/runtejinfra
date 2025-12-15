@@ -58,10 +58,10 @@ function ProjectList() {
             {projects.map((project) => (
               <Link
                 key={project._id}
-                href={`/projectdetails/${project._id}`}
+                href={`/projectdetail/${project._id}`}
                 className="bg-white rounded shadow overflow-hidden block"
               >
-                <div className="relative w-full h-64 sm:h-56">
+                <div className="relative group w-full h-64 sm:h-56">
                   {project?.imageUrl && (
                     <Image
                       src={project.imageUrl}
@@ -72,7 +72,12 @@ function ProjectList() {
                     />
                   )}
 
-                  <span className="absolute top-2 right-2 text-white text-xs px-2 py-1 rounded bg-green-600">
+                  {/* Hover Logo */}
+                  <div className="absolute top-2 right-2 bg-white rounded opacity-0 group-hover:opacity-100 transition-opacity shadow p-1">
+                    <Image src="/tlogo.png" alt="logo" width={26} height={26} />
+                  </div>
+
+                  <span className="absolute top-2 left-2 text-white text-xs px-2 py-1 rounded bg-green-600">
                     FOR SALE
                   </span>
                 </div>
