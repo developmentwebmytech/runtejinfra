@@ -46,7 +46,7 @@ function Footer() {
               <li><Link href="/ourstory">Our Story</Link></li>
               <li><Link href="/ourimpact">Our Impact</Link></li>
               <li><Link href="/joinus">Careers</Link></li>
-              <li><Link href="/our-work-partner">Our Work Partner</Link></li>
+              <li><Link href="/media">Media Gallery</Link></li>
               <li><Link href="/categories">All Categories</Link></li>
             </ul>
           </div>

@@ -72,6 +72,11 @@ const items = [
     title:"Work Partner",
     href: "/dashboard/our-work-partner",
     icon: BookOpenCheck   ,
+  },
+  {
+    title:"Our Firms",
+    href: "/dashboard/our-firms",
+    icon: Package   ,
   }
 ]
 
