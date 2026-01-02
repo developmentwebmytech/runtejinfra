@@ -42,6 +42,11 @@ const items = [
     href: "/dashboard/testimonials",
     icon: House,
   },
+  {
+    title: "Employees Application",
+    href: "/dashboard/employee-careers",
+    icon: House,
+  },
  
   {
     title:"Contact Us",
@@ -53,11 +58,11 @@ const items = [
     href: "/dashboard/postcontact",
     icon: BadgeDollarSign,
   },
-  {
-    title:"Services",
-    href: "/dashboard/service-management",
-    icon: Package   ,
-  },
+  // {
+  //   title:"Services",
+  //   href: "/dashboard/service-management",
+  //   icon: Package   ,
+  // },
   {
     title:"Blogs",
     href: "/dashboard/blogs",
