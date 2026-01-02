@@ -2,8 +2,8 @@
 
 import type React from "react"
 import { useState } from "react"
-import { useToast } from "@/hooks/use-toast"
-import { Input } from "@/components/ui/input" // Updated import path for Input component to match codebase structure
+import { toast } from "sonner"
+import { Input } from "@/components/ui/input"
 
 interface FormData {
   fullName: string
@@ -24,6 +24,8 @@ interface FormData {
 }
 
 export default function EmployeeCareersPage() {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
   const [formData, setFormData] = useState<FormData>({
     fullName: "",
     mobileNumber: "",
@@ -41,98 +43,93 @@ export default function EmployeeCareersPage() {
     resume: null,
     declaration: false,
   })
-  const { toast } = useToast()
-  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value, type } = e.target
 
     if (type === "checkbox") {
-      setFormData((prev) => ({
+      setFormData(prev => ({
         ...prev,
         [name]: (e.target as HTMLInputElement).checked,
       }))
     } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }))
+      setFormData(prev => ({ ...prev, [name]: value }))
     }
   }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        toast({
-          title: "File size exceeded",
-          description: "Max size is 5MB. Please choose a smaller file.",
-          variant: "destructive",
-        })
-        e.target.value = "" // clear input
-        return
-      }
-      setFormData((prev) => ({ ...prev, resume: file }))
+    if (!file) return
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Resume must be smaller than 5MB")
+      e.target.value = ""
+      return
     }
+
+    setFormData(prev => ({ ...prev, resume: file }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (!formData.declaration) {
+      toast.error("Please accept the declaration")
+      return
+    }
+
+    if (!formData.resume) {
+      toast.error("Please upload your resume")
+      return
+    }
+
     setIsSubmitting(true)
+    toast.loading("Submitting application...", { id: "submit" })
 
     try {
-      const formDataToSend = new FormData()
+      const payload = new FormData()
+
       Object.entries(formData).forEach(([key, value]) => {
         if (key !== "resume") {
-          formDataToSend.append(key, value as string)
+          payload.append(key, String(value))
         }
       })
 
-      if (formData.resume) {
-        // Validation check before sending
-        if (formData.resume.size > 5 * 1024 * 1024) {
-          toast({
-            title: "File too large",
-            description: "Please upload a file smaller than 5MB",
-            variant: "destructive",
-          })
-          setIsSubmitting(false)
-          return
-        }
-        formDataToSend.append("resume", formData.resume)
-      }
+      payload.append("resume", formData.resume)
 
-      const response = await fetch("/api/admin/employee-careers", {
+      const res = await fetch("/api/admin/employee-careers", {
         method: "POST",
-        body: formDataToSend,
+        body: payload,
       })
 
-      if (response.ok) {
-        toast({ title: "Success", description: "Application submitted successfully!" })
-        // Reset form
-        setFormData({
-          fullName: "",
-          mobileNumber: "",
-          email: "",
-          currentLocation: "",
-          willingsToRelocate: "",
-          positionAppliedFor: "",
-          totalYearsExperience: "",
-          constructionExperienceType: "",
-          currentOrganization: "",
-          noticePeriod: "",
-          highestQualification: "",
-          keyTechnicalSkills: "",
-          certifications: "",
-          resume: null,
-          declaration: false,
-        })
-      } else {
-        const data = await response.json()
+      if (!res.ok) {
+        const data = await res.json()
         throw new Error(data.message || "Submission failed")
       }
-    } catch (error: any) {
-      toast({ title: "Error", description: error.message, variant: "destructive" })
+
+      toast.success("Application submitted successfully!", { id: "submit" })
+
+      setFormData({
+        fullName: "",
+        mobileNumber: "",
+        email: "",
+        currentLocation: "",
+        willingsToRelocate: "",
+        positionAppliedFor: "",
+        totalYearsExperience: "",
+        constructionExperienceType: "",
+        currentOrganization: "",
+        noticePeriod: "",
+        highestQualification: "",
+        keyTechnicalSkills: "",
+        certifications: "",
+        resume: null,
+        declaration: false,
+      })
+    } catch (err: any) {
+      toast.error(err.message || "Something went wrong", { id: "submit" })
     } finally {
       setIsSubmitting(false)
     }
