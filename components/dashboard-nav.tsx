@@ -53,6 +53,11 @@ const items = [
     icon: Package   ,
   },
   {
+     title:"Vendor Registration Application",
+    href: "/dashboard/vendor-registration",
+    icon: Package 
+  },
+  {
     title:"Contact Us",
     href: "/dashboard/getcontact",
     icon: BookOpenCheck,
