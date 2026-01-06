@@ -124,7 +124,6 @@ const ClientEnquirySchema = new Schema<IClientEnquiry>(
 )
 
 // Prevent model overwrite during hot-reload
-const ClientEnquiry =
-  mongoose.models.ClientEnquiry || mongoose.model<IClientEnquiry>("ClientEnquiry", ClientEnquirySchema)
+const ClientEnquiry = mongoose.models.ClientEnquiry || mongoose.model<IClientEnquiry>("ClientEnquiry", ClientEnquirySchema)
 
 export default ClientEnquiry

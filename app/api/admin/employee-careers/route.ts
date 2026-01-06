@@ -6,6 +6,7 @@ import { connectDB } from "@/lib/mongodb"
 
 const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads")
 const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
+
 const ALLOWED_TYPES = [
   "application/pdf",
   "application/msword",

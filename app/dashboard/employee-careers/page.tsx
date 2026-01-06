@@ -87,7 +87,7 @@ function AdminDashboard() {
         {/* Header */}
         <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-2">
           <div className="space-y-2">
-            <h1 className="text-4xl font-bold tracking-tight text-balance">Talent Pipeline</h1>
+            <h1 className="text-4xl font-bold tracking-tight text-balance">Employee Application</h1>
             <p className="text-muted-foreground text-lg max-w-2xl text-pretty">
               Review and manage incoming employee applications for construction and technical roles.
             </p>

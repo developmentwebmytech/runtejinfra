@@ -47,7 +47,11 @@ const items = [
     href: "/dashboard/employee-careers",
     icon: House,
   },
- 
+  {
+    title:"Client Enquiries Application",
+    href: "/dashboard/client-enquiry",
+    icon: Package   ,
+  },
   {
     title:"Contact Us",
     href: "/dashboard/getcontact",
@@ -58,11 +62,7 @@ const items = [
     href: "/dashboard/postcontact",
     icon: BadgeDollarSign,
   },
-  // {
-  //   title:"Services",
-  //   href: "/dashboard/service-management",
-  //   icon: Package   ,
-  // },
+  
   {
     title:"Blogs",
     href: "/dashboard/blogs",

@@ -111,7 +111,7 @@ export default function ClientEnquiryPage() {
         submitData.append("attachments", file)
       })
 
-      const response = await fetch("/api/enquiry", {
+      const response = await fetch("/api/admin/client-enquiry", {
         method: "POST",
         body: submitData,
       })
@@ -220,8 +220,8 @@ export default function ClientEnquiryPage() {
                     name="mobile"
                     value={formData.mobile}
                     onChange={handleInputChange}
-                    placeholder="10-15 digits only"
-                    maxLength={15}
+                    placeholder="0-9 digits only"
+                    maxLength={10}
                     className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
                     required
                   />
@@ -386,7 +386,7 @@ export default function ClientEnquiryPage() {
                   <label htmlFor="attachments" className="flex flex-col items-center justify-center cursor-pointer">
                     <Upload className="w-8 h-8 text-gray-400 mb-2" />
                     <span className="text-sm text-gray-600">Click to upload or drag and drop</span>
-                    <span className="text-xs text-gray-500 mt-1">PDF, DOC, XLS, DWG, JPG, PNG (Max 10MB each)</span>
+                    <span className="text-xs text-gray-500 mt-1">PDF, DOCX (Max 5MB each)</span>
                   </label>
                 </div>
 
@@ -475,11 +475,16 @@ export default function ClientEnquiryPage() {
         </form>
 
         {/* Footer Note */}
-        <div className="mt-8 text-center text-xs text-gray-600 bg-white rounded-lg shadow-md p-4 border border-gray-200">
-          <p>
-            Runtej Infra reserves the right to evaluate and respond to enquiries based on project feasibility and
-            company capacity. Response time may vary based on enquiry complexity.
-          </p>
+        <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden mt-6">
+          <div className="bg-green-50 border-l-4 border-green-500 px-6 py-4">
+            <h2 className="text-sm font-bold text-gray-900 uppercase">Legal Declaration</h2>
+          </div>
+
+          <div className="p-4">
+            <p className="text-base text-semibold text-black leading-relaxed">
+              This enquiry is for information purposes only and does not constitute a binding offer, quotation, or contract.
+            </p>
+          </div>
         </div>
       </div>
     </main>
