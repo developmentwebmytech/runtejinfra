@@ -1,32 +1,81 @@
-import { NextResponse } from "next/server"
+import { type NextRequest, NextResponse } from "next/server"
+import path from "path"
+import fs from "fs/promises"
 import { connectDB } from "@/lib/mongodb"
 import ClientEnquiry from "@/lib/models/ClientEnquiry"
 
-export async function POST(req: Request) {
+const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads")
+const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
+
+const ALLOWED_TYPES = [
+  "application/pdf",
+  "image/jpeg",
+  "image/png",
+  "image/jpg",
+  "image/webp",
+]
+
+export async function POST(request: NextRequest) {
   try {
     await connectDB()
+    const formData = await request.formData()
 
-    const formData = await req.formData()
+    // files
+    const files = formData.getAll("attachments") as File[]
+
+    const uploadedFiles: string[] = []
+
+    if (files.length > 0) {
+      await fs.mkdir(UPLOAD_DIR, { recursive: true })
+
+      for (const file of files) {
+        if (file.size > MAX_FILE_SIZE) {
+          return NextResponse.json(
+            { message: "Each file must be under 5MB" },
+            { status: 400 }
+          )
+        }
+
+        if (!ALLOWED_TYPES.includes(file.type)) {
+          return NextResponse.json(
+            { message: "Only PDF or image files are allowed" },
+            { status: 400 }
+          )
+        }
+
+        const fileName = `${Date.now()}-${file.name}`
+        const filePath = path.join(UPLOAD_DIR, fileName)
+        const buffer = Buffer.from(await file.arrayBuffer())
+        await fs.writeFile(filePath, buffer)
+
+        uploadedFiles.push(`/uploads/${fileName}`)
+      }
+    }
+
+    // normal fields
     const body = Object.fromEntries(formData.entries())
+    delete body.attachments
 
-    // consent ko boolean banao
     body.consent = body.consent === "true"
 
-    const newEnquiry = await ClientEnquiry.create(body)
-
-    return NextResponse.json({
-      success: true,
-      message: "Enquiry received and saved successfully",
-      data: newEnquiry,
+    const enquiry = await ClientEnquiry.create({
+      ...body,
+      attachments: uploadedFiles,
     })
-  } catch (error: any) {
-    console.error("[v0] API Error:", error.message)
+
     return NextResponse.json(
       {
-        success: false,
-        error: error.message || "Internal Server Error",
+        success: true,
+        message: "Enquiry submitted successfully",
+        data: enquiry,
       },
-      { status: 500 },
+      { status: 201 }
+    )
+  } catch (error: any) {
+    console.error("Client Enquiry Error:", error)
+    return NextResponse.json(
+      { message: error.message || "Internal server error" },
+      { status: 500 }
     )
   }
 }
@@ -34,9 +83,12 @@ export async function POST(req: Request) {
 export async function GET() {
   try {
     await connectDB()
-    const applications = await ClientEnquiry.find().sort({ createdAt: -1 })
-    return NextResponse.json(applications)
+    const enquiries = await ClientEnquiry.find().sort({ createdAt: -1 })
+    return NextResponse.json(enquiries)
   } catch (error) {
-    return NextResponse.json({ message: "Error fetching applications" }, { status: 500 })
+    return NextResponse.json(
+      { message: "Error fetching enquiries" },
+      { status: 500 }
+    )
   }
 }

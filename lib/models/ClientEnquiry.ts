@@ -22,6 +22,9 @@ export interface IClientEnquiry extends Document {
   // Additional
   sourceOfEnquiry?: string
 
+  // Attachments ✅
+  attachments?: string[]
+
   // Consent
   consent: boolean
 
@@ -108,6 +111,12 @@ const ClientEnquirySchema = new Schema<IClientEnquiry>(
       enum: ["Website", "Referral", "Advertisement", "Social Media", "Other"],
     },
 
+    // Attachments ✅
+    attachments: {
+      type: [String],
+      default: [],
+    },
+
     // Consent
     consent: {
       type: Boolean,
@@ -124,6 +133,8 @@ const ClientEnquirySchema = new Schema<IClientEnquiry>(
 )
 
 // Prevent model overwrite during hot-reload
-const ClientEnquiry = mongoose.models.ClientEnquiry || mongoose.model<IClientEnquiry>("ClientEnquiry", ClientEnquirySchema)
+const ClientEnquiry =
+  mongoose.models.ClientEnquiry ||
+  mongoose.model<IClientEnquiry>("ClientEnquiry", ClientEnquirySchema)
 
 export default ClientEnquiry

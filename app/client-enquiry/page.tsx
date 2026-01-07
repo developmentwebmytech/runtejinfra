@@ -69,11 +69,34 @@ export default function ClientEnquiryPage() {
   }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const newFiles = Array.from(e.target.files)
-      setAttachments((prev) => [...prev, ...newFiles])
+    if (!e.target.files) return
+
+    setError("")
+
+    const files = Array.from(e.target.files)
+    const validFiles: File[] = []
+
+    for (const file of files) {
+      const isPdf = file.type === "application/pdf"
+      const isImage = file.type.startsWith("image/")
+      const isSizeOk = file.size <= 5 * 1024 * 1024 // 5MB
+
+      if (!isPdf && !isImage) {
+        setError("Only PDF or image files are allowed")
+        return
+      }
+
+      if (!isSizeOk) {
+        setError("File size must be under 5MB")
+        return
+      }
+
+      validFiles.push(file)
     }
+
+    setAttachments((prev) => [...prev, ...validFiles])
   }
+
 
   const removeFile = (index: number) => {
     setAttachments((prev) => prev.filter((_, i) => i !== index))
@@ -374,19 +397,23 @@ export default function ClientEnquiryPage() {
                 <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase">
                   Upload Drawings / BOQ / Scope (Optional)
                 </label>
+
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 hover:border-green-500 transition-colors">
                   <input
                     type="file"
                     id="attachments"
                     multiple
-                    accept=".pdf,.doc,.docx,.xls,.xlsx,.dwg,.jpg,.jpeg,.png"
+                    accept=".pdf,image/*"
                     onChange={handleFileChange}
                     className="hidden"
                   />
+
                   <label htmlFor="attachments" className="flex flex-col items-center justify-center cursor-pointer">
                     <Upload className="w-8 h-8 text-gray-400 mb-2" />
                     <span className="text-sm text-gray-600">Click to upload or drag and drop</span>
-                    <span className="text-xs text-gray-500 mt-1">PDF, DOCX (Max 5MB each)</span>
+                    <span className="text-xs text-gray-500 mt-1">
+                      PDF or Image (Max 5MB each)
+                    </span>
                   </label>
                 </div>
 
@@ -397,7 +424,9 @@ export default function ClientEnquiryPage() {
                         key={index}
                         className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded border border-gray-200"
                       >
-                        <span className="text-sm text-gray-700 truncate flex-1">{file.name}</span>
+                        <span className="text-sm text-gray-700 truncate flex-1">
+                          {file.name}
+                        </span>
                         <button
                           type="button"
                           onClick={() => removeFile(index)}
@@ -410,6 +439,8 @@ export default function ClientEnquiryPage() {
                   </div>
                 )}
               </div>
+
+
             </div>
           </div>
 
