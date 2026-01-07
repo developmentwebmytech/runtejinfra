@@ -10,13 +10,11 @@ interface FormData {
   mobile: string
   email: string
   location: string
-  projectName: string
-  projectLocation: string
   projectType: string
+  projectArea: string
   estimatedBudget: string
   timelineExpected: string
   requirementDescription: string
-  specificRequirements: string
   sourceOfEnquiry: string
   consent: boolean
 }
@@ -28,13 +26,11 @@ export default function ClientEnquiryPage() {
     mobile: "",
     email: "",
     location: "",
-    projectName: "",
-    projectLocation: "",
     projectType: "",
+    projectArea: "",
     estimatedBudget: "",
     timelineExpected: "",
     requirementDescription: "",
-    specificRequirements: "",
     sourceOfEnquiry: "",
     consent: false,
   })
@@ -97,7 +93,6 @@ export default function ClientEnquiryPage() {
     setAttachments((prev) => [...prev, ...validFiles])
   }
 
-
   const removeFile = (index: number) => {
     setAttachments((prev) => prev.filter((_, i) => i !== index))
   }
@@ -113,6 +108,16 @@ export default function ClientEnquiryPage() {
 
     if (formData.mobile && !/^[0-9]{10,15}$/.test(formData.mobile)) {
       setError("Mobile number must contain 10-15 digits only")
+      return
+    }
+
+    if (!formData.projectType) {
+      setError("Please select a nature of requirement")
+      return
+    }
+
+    if (!formData.requirementDescription) {
+      setError("Please provide brief description of requirement")
       return
     }
 
@@ -153,13 +158,11 @@ export default function ClientEnquiryPage() {
         mobile: "",
         email: "",
         location: "",
-        projectName: "",
-        projectLocation: "",
         projectType: "",
+        projectArea: "",
         estimatedBudget: "",
         timelineExpected: "",
         requirementDescription: "",
-        specificRequirements: "",
         sourceOfEnquiry: "",
         consent: false,
       })
@@ -191,11 +194,14 @@ export default function ClientEnquiryPage() {
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Client Enquiry Form</h1>
-          <p className="text-gray-600">Complete all sections to submit your project enquiry to Runtej Infra</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-8">CLIENT ENQUIRY / QUOTATION FORM</h1>
+          <p className="text-gray-600">
+            We execute residential, commercial, industrial, and infrastructure projects across India. Share your
+            requirement and our team will contact you.
+          </p>
         </div>
 
-        {/* Form Container - Card-based layout */}
+        {/* Form Container */}
         <form onSubmit={handleSubmit} className="space-y-6">
           {error && (
             <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-md">
@@ -203,16 +209,16 @@ export default function ClientEnquiryPage() {
             </div>
           )}
 
-          {/* Section 1: Client Information Card */}
+          {/* Section 1: Client Information */}
           <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
             <div className="bg-gradient-to-r from-blue-50 to-blue-100 border-l-4 border-green-500 px-6 py-4">
-              <h2 className="text-lg font-bold text-gray-900">Client Information</h2>
+              <h2 className="text-lg font-bold text-gray-900">🔹 Client Information</h2>
             </div>
 
             <div className="p-6 space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase">Client Name*</label>
+                  <label className="block text-xs font-semibold text-gray-700 mb-2">Full Name *</label>
                   <input
                     type="text"
                     name="clientName"
@@ -224,7 +230,7 @@ export default function ClientEnquiryPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase">Company Name</label>
+                  <label className="block text-xs font-semibold text-gray-700 mb-2">Organization / Company Name</label>
                   <input
                     type="text"
                     name="companyName"
@@ -237,21 +243,21 @@ export default function ClientEnquiryPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase">Mobile*</label>
+                  <label className="block text-xs font-semibold text-gray-700 mb-2">Mobile Number *</label>
                   <input
                     type="tel"
                     name="mobile"
                     value={formData.mobile}
                     onChange={handleInputChange}
-                    placeholder="0-9 digits only"
-                    maxLength={10}
+                    placeholder="10 digit number"
+                    maxLength={15}
                     className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase">Email*</label>
+                  <label className="block text-xs font-semibold text-gray-700 mb-2">Email Address *</label>
                   <input
                     type="email"
                     name="email"
@@ -263,7 +269,9 @@ export default function ClientEnquiryPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase">Location*</label>
+                  <label className="block text-xs font-semibold text-gray-700 mb-2">
+                    Project Location (City / State) *
+                  </label>
                   <input
                     type="text"
                     name="location"
@@ -277,61 +285,55 @@ export default function ClientEnquiryPage() {
             </div>
           </div>
 
-          {/* Section 2: Project Details Card */}
+          {/* Section 2: Project Details */}
           <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
             <div className="bg-gradient-to-r from-blue-50 to-blue-100 border-l-4 border-green-500 px-6 py-4">
-              <h2 className="text-lg font-bold text-gray-900">Project Details</h2>
+              <h2 className="text-lg font-bold text-gray-900">🔹 Project Details</h2>
             </div>
 
             <div className="p-6 space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase">Project Name*</label>
-                  <input
-                    type="text"
-                    name="projectName"
-                    value={formData.projectName}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase">Project Location*</label>
-                  <input
-                    type="text"
-                    name="projectLocation"
-                    value={formData.projectLocation}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-                    required
-                  />
+              <div>
+                <label className="block text-xs font-semibold text-gray-700 mb-3">Nature of Requirement *</label>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  {[
+                    "Residential",
+                    "Commercial",
+                    "Industrial",
+                    "Road / Infrastructure",
+                    "Renovation",
+                    "Govt / Tender Project",
+                  ].map((option) => (
+                    <label key={option} className="flex items-center space-x-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        name="projectType"
+                        value={option}
+                        checked={formData.projectType === option}
+                        onChange={handleInputChange}
+                        className="w-4 h-4 accent-green-500"
+                        required
+                      />
+                      <span className="text-sm text-gray-700">{option}</span>
+                    </label>
+                  ))}
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase">Project Type*</label>
-                  <select
-                    name="projectType"
-                    value={formData.projectType}
+                  <label className="block text-xs font-semibold text-gray-700 mb-2">Approximate Project Area</label>
+                  <input
+                    type="text"
+                    name="projectArea"
+                    value={formData.projectArea}
                     onChange={handleInputChange}
+                    placeholder="e.g., 5000 sqft"
                     className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-                    required
-                  >
-                    <option value="">Select type</option>
-                    <option value="Residential Construction">Residential Construction</option>
-                    <option value="Commercial Construction">Commercial Construction</option>
-                    <option value="Industrial Construction">Industrial Construction</option>
-                    <option value="Infrastructure Development">Infrastructure Development</option>
-                    <option value="Renovation/Remodeling">Renovation/Remodeling</option>
-                    <option value="Other">Other</option>
-                  </select>
+                  />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase">Estimated Budget</label>
+                  <label className="block text-xs font-semibold text-gray-700 mb-2">Tentative Budget (Optional)</label>
                   <input
                     type="text"
                     name="estimatedBudget"
@@ -343,7 +345,7 @@ export default function ClientEnquiryPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase">Timeline Expected</label>
+                  <label className="block text-xs font-semibold text-gray-700 mb-2">Tentative Start Date</label>
                   <input
                     type="text"
                     name="timelineExpected"
@@ -357,16 +359,16 @@ export default function ClientEnquiryPage() {
             </div>
           </div>
 
-          {/* Section 3: Nature of Requirement Card */}
+          {/* Section 3: Requirement Details */}
           <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
             <div className="bg-gradient-to-r from-blue-50 to-blue-100 border-l-4 border-green-500 px-6 py-4">
-              <h2 className="text-lg font-bold text-gray-900">Nature of Requirement</h2>
+              <h2 className="text-lg font-bold text-gray-900">🔹 Requirement Details</h2>
             </div>
 
             <div className="p-6 space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase">
-                  Requirement Description*
+                <label className="block text-xs font-semibold text-gray-700 mb-2">
+                  Brief Description of Requirement *
                 </label>
                 <textarea
                   name="requirementDescription"
@@ -378,23 +380,18 @@ export default function ClientEnquiryPage() {
                   required
                 />
               </div>
+            </div>
+          </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase">
-                  Specific Requirements
-                </label>
-                <textarea
-                  name="specificRequirements"
-                  value={formData.specificRequirements}
-                  onChange={handleInputChange}
-                  placeholder="Any specific technical or design requirements"
-                  rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-                />
-              </div>
+          {/* Section 4: Attachments */}
+          <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+            <div className="bg-gradient-to-r from-blue-50 to-blue-100 border-l-4 border-green-500 px-6 py-4">
+              <h2 className="text-lg font-bold text-gray-900">🔹 Attachments</h2>
+            </div>
 
+            <div className="p-6 space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase">
+                <label className="block text-xs font-semibold text-gray-700 mb-2">
                   Upload Drawings / BOQ / Scope (Optional)
                 </label>
 
@@ -411,9 +408,7 @@ export default function ClientEnquiryPage() {
                   <label htmlFor="attachments" className="flex flex-col items-center justify-center cursor-pointer">
                     <Upload className="w-8 h-8 text-gray-400 mb-2" />
                     <span className="text-sm text-gray-600">Click to upload or drag and drop</span>
-                    <span className="text-xs text-gray-500 mt-1">
-                      PDF or Image (Max 5MB each)
-                    </span>
+                    <span className="text-xs text-gray-500 mt-1">PDF or Image (Max 5MB each)</span>
                   </label>
                 </div>
 
@@ -424,9 +419,7 @@ export default function ClientEnquiryPage() {
                         key={index}
                         className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded border border-gray-200"
                       >
-                        <span className="text-sm text-gray-700 truncate flex-1">
-                          {file.name}
-                        </span>
+                        <span className="text-sm text-gray-700 truncate flex-1">{file.name}</span>
                         <button
                           type="button"
                           onClick={() => removeFile(index)}
@@ -439,41 +432,13 @@ export default function ClientEnquiryPage() {
                   </div>
                 )}
               </div>
-
-
             </div>
           </div>
 
-          {/* Section 4: Additional Information Card */}
+          {/* Section 5: Consent */}
           <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
             <div className="bg-gradient-to-r from-blue-50 to-blue-100 border-l-4 border-green-500 px-6 py-4">
-              <h2 className="text-lg font-bold text-gray-900">Additional Information</h2>
-            </div>
-
-            <div className="p-6">
-              <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase">
-                How did you hear about us?
-              </label>
-              <select
-                name="sourceOfEnquiry"
-                value={formData.sourceOfEnquiry}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-              >
-                <option value="">Select source</option>
-                <option value="Website">Website</option>
-                <option value="Referral">Referral</option>
-                <option value="Advertisement">Advertisement</option>
-                <option value="Social Media">Social Media</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-          </div>
-
-          {/* Section 5: Declaration Card */}
-          <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
-            <div className="bg-gradient-to-r from-blue-50 to-blue-100 border-l-4 border-green-500 px-6 py-4">
-              <h2 className="text-lg font-bold text-gray-900">Declaration</h2>
+              <h2 className="text-lg font-bold text-gray-900">🔹 Consent (Mandatory)</h2>
             </div>
 
             <div className="p-6">
@@ -500,7 +465,7 @@ export default function ClientEnquiryPage() {
               disabled={loading}
               className="bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white font-bold py-3 px-12 rounded-lg text-sm uppercase transition-colors shadow-md"
             >
-              {loading ? "Submitting..." : "Submit Enquiry"}
+              {loading ? "Submitting..." : " Submit Enquiry"}
             </button>
           </div>
         </form>
@@ -508,12 +473,13 @@ export default function ClientEnquiryPage() {
         {/* Footer Note */}
         <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden mt-6">
           <div className="bg-green-50 border-l-4 border-green-500 px-6 py-4">
-            <h2 className="text-sm font-bold text-gray-900 uppercase">Legal Declaration</h2>
+            <h2 className="text-sm font-bold text-gray-900 uppercase">🔐 Website Legal Footer (Client Page)</h2>
           </div>
 
           <div className="p-4">
-            <p className="text-base text-semibold text-black leading-relaxed">
-              This enquiry is for information purposes only and does not constitute a binding offer, quotation, or contract.
+            <p className="text-base text-gray-900 leading-relaxed">
+              This enquiry is for information purposes only and does not constitute a binding offer, quotation, or
+              contract.
             </p>
           </div>
         </div>

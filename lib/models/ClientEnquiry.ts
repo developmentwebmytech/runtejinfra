@@ -1,44 +1,33 @@
 import mongoose, { Document, Schema } from "mongoose"
 
 export interface IClientEnquiry extends Document {
-  // Client Information
   clientName: string
   companyName?: string
   mobile: string
   email: string
   location: string
 
-  // Project Details
-  projectName: string
-  projectLocation: string
   projectType: string
+  projectArea?: string
   estimatedBudget?: string
   timelineExpected?: string
 
-  // Nature of Requirement
   requirementDescription: string
-  specificRequirements?: string
-
-  // Additional
   sourceOfEnquiry?: string
 
-  // Attachments ✅
   attachments?: string[]
-
-  // Consent
   consent: boolean
 
-  // Metadata
   createdAt: Date
   updatedAt: Date
 }
 
 const ClientEnquirySchema = new Schema<IClientEnquiry>(
   {
-    // Client Information
+    // Client Info
     clientName: {
       type: String,
-      required: [true, "Client name is required"],
+      required: true,
       trim: true,
     },
     companyName: {
@@ -47,43 +36,37 @@ const ClientEnquirySchema = new Schema<IClientEnquiry>(
     },
     mobile: {
       type: String,
-      required: [true, "Mobile number is required"],
+      required: true,
       trim: true,
     },
     email: {
       type: String,
-      required: [true, "Email is required"],
+      required: true,
       trim: true,
       lowercase: true,
     },
     location: {
       type: String,
-      required: [true, "Location is required"],
+      required: true,
       trim: true,
     },
 
     // Project Details
-    projectName: {
-      type: String,
-      required: [true, "Project name is required"],
-      trim: true,
-    },
-    projectLocation: {
-      type: String,
-      required: [true, "Project location is required"],
-      trim: true,
-    },
     projectType: {
       type: String,
-      required: [true, "Project type is required"],
+      required: true,
       enum: [
-        "Residential Construction",
-        "Commercial Construction",
-        "Industrial Construction",
-        "Infrastructure Development",
-        "Renovation/Remodeling",
-        "Other",
+        "Residential",
+        "Commercial",
+        "Industrial",
+        "Road / Infrastructure",
+        "Renovation",
+        "Govt / Tender Project",
       ],
+    },
+    projectArea: {
+      type: String,
+      trim: true,
     },
     estimatedBudget: {
       type: String,
@@ -94,24 +77,20 @@ const ClientEnquirySchema = new Schema<IClientEnquiry>(
       trim: true,
     },
 
-    // Nature of Requirement
+    // Requirement
     requirementDescription: {
       type: String,
-      required: [true, "Requirement description is required"],
-      trim: true,
-    },
-    specificRequirements: {
-      type: String,
+      required: true,
       trim: true,
     },
 
-    // Additional
+    // Extra
     sourceOfEnquiry: {
       type: String,
-      enum: ["Website", "Referral", "Advertisement", "Social Media", "Other"],
+      trim: true,
     },
 
-    // Attachments ✅
+    // Files
     attachments: {
       type: [String],
       default: [],
@@ -120,19 +99,16 @@ const ClientEnquirySchema = new Schema<IClientEnquiry>(
     // Consent
     consent: {
       type: Boolean,
-      required: [true, "Consent is required"],
+      required: true,
       validate: {
         validator: (v: boolean) => v === true,
-        message: "You must accept the terms and conditions",
+        message: "Consent is required",
       },
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 )
 
-// Prevent model overwrite during hot-reload
 const ClientEnquiry =
   mongoose.models.ClientEnquiry ||
   mongoose.model<IClientEnquiry>("ClientEnquiry", ClientEnquirySchema)
