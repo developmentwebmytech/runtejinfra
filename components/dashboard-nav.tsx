@@ -117,20 +117,21 @@ export function DashboardNav({ setOpen }: DashboardNavProps) {
 
           <Separator />
 
+        
           {/* Applications Dropdown */}
           <div className="flex flex-col">
             <button
               onClick={() => setOpenApplications(!openApplications)}
               className={cn(
-                "flex items-center justify-between rounded-md px-3 py-2 text-sm font-medium w-full",
-                "hover:bg-gray-700 hover:text-white transition-colors",
-                openApplications && "bg-gray-700 text-white"
+                "flex items-center justify-between rounded-md px-3 py-3 text-sm font-medium w-full",
+                "hover:bg-gray-700 hover:text-white transition-colors"
               )}
             >
               <div className="flex items-center">
                 <Package className="mr-2 h-4 w-4" />
                 Applications
               </div>
+
               <ChevronDown
                 className={cn(
                   "h-4 w-4 transition-transform",
@@ -167,6 +168,7 @@ export function DashboardNav({ setOpen }: DashboardNavProps) {
               </div>
             )}
           </div>
+
 
           <Separator />
 
@@ -247,9 +249,11 @@ function NavLink({
       href={href}
       onClick={() => setOpen?.(false)}
       className={cn(
-        "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-700 hover:text-white transition-colors",
-        pathname === href ? "bg-gray-700 text-white" : "transparent"
+        "group flex items-center rounded-md px-3 py-3 text-sm font-medium",
+        "hover:bg-gray-900 hover:text-white transition-colors",
+        pathname === href ? "bg-gray-700 text-white" : "text-gray-600"
       )}
+
     >
       <Icon className="mr-2 h-4 w-4" />
       {title}
@@ -269,8 +273,9 @@ function ChildLink({
       href={href}
       onClick={() => setOpen?.(false)}
       className={cn(
-        "flex items-center rounded-md px-3 py-2 text-sm hover:bg-gray-600 hover:text-white",
+        "flex items-center rounded-md px-3 py-3 text-sm hover:bg-gray-600 hover:text-white",
         pathname === href ? "bg-gray-700 text-white" : "text-gray-600"
+
       )}
     >
       <Icon className="mr-2 h-3 w-3" />
