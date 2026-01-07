@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useEffect, Suspense } from "react"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
@@ -9,14 +10,12 @@ import { Badge } from "@/components/ui/badge"
 import { Search, Download, Users, Calendar, ExternalLink, Filter, Eye } from "lucide-react"
 import ExcelJS from "exceljs"
 import { format } from "date-fns"
-import { VendorDetailsModal } from "@/components/admin/vendor-details-modal"
 
-function VendorAdminDashboard() {
+export default function VendorAdminDashboard() {
+  const router = useRouter()
   const [vendors, setVendors] = useState<any[]>([])
   const [search, setSearch] = useState("")
   const [loading, setLoading] = useState(true)
-  const [selectedVendor, setSelectedVendor] = useState<any | null>(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
 
   useEffect(() => {
     fetchVendors()
@@ -75,9 +74,8 @@ function VendorAdminDashboard() {
       vendor.vendorCategory.toLowerCase().includes(search.toLowerCase()),
   )
 
-  const openDetails = (vendor: any) => {
-    setSelectedVendor(vendor)
-    setIsModalOpen(true)
+  const openDetails = (vendorId: string) => {
+    router.push(`/dashboard/vendor-registration/${vendorId}`)
   }
 
   return (
@@ -223,7 +221,7 @@ function VendorAdminDashboard() {
                     <TableRow
                       key={vendor._id}
                       className="group cursor-pointer hover:bg-muted/30 transition-colors border-b border-border/50 last:border-0"
-                      onClick={() => openDetails(vendor)}
+                      onClick={() => openDetails(vendor._id)}
                     >
                       <TableCell className="py-5 px-6">
                         <div className="flex items-center gap-3">
@@ -261,7 +259,7 @@ function VendorAdminDashboard() {
                             variant="ghost"
                             size="icon"
                             className="h-9 w-9 text-muted-foreground hover:text-foreground hover:bg-muted"
-                            onClick={() => openDetails(vendor)}
+                            onClick={() => openDetails(vendor._id)}
                           >
                             <Eye className="h-4 w-4" />
                             <span className="sr-only">View Details</span>
@@ -289,16 +287,6 @@ function VendorAdminDashboard() {
           </div>
         </div>
       </div>
-
-      <VendorDetailsModal vendor={selectedVendor} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
-  )
-}
-
-export default function VendorAdminDashboardPage() {
-  return (
-    <Suspense fallback={null}>
-      <VendorAdminDashboard />
-    </Suspense>
   )
 }
