@@ -194,7 +194,7 @@ export default function ClientEnquiryPage() {
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-8">CLIENT ENQUIRY / QUOTATION FORM</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-8">CLIENT ENQUIRY FORM</h1>
           <p className="text-gray-600">
             We execute residential, commercial, industrial, and infrastructure projects across India. Share your
             requirement and our team will contact you.
