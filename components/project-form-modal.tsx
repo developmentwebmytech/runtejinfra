@@ -678,8 +678,6 @@ export function ProjectFormModal({
                 type="number"
                 value={form.yearOfCompletion?.toString() || ""}
                 onChange={(value) => handleChange("yearOfCompletion", value)}
-                min="2000"
-                max="2050"
                 placeholder="Enter completion year"
               />
             </div>

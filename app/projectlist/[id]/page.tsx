@@ -13,6 +13,7 @@ interface Project {
   yearOfCompletion: number
   totalBuiltUpArea: string
   propertyType: string
+  slug: string
 }
 
 interface Category {
@@ -38,6 +39,7 @@ export default function ProjectsByPropertyTypePage() {
         const data = await res.json()
 
         const filtered = data.filter((p: any) => p.propertyType?.toString() === id)
+        console.log('Filtered Projects:', filtered)
         setProjects(filtered)
       } catch (err) {
         setError('Something went wrong while fetching projects.')
@@ -79,7 +81,7 @@ export default function ProjectsByPropertyTypePage() {
         ) : (
           <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-4">
             {projects.map((project) => (
-              <Link key={project._id} href={`/projectdetail/${project._id}`} className="bg-white rounded shadow overflow-hidden block group">
+              <Link key={project._id} href={`/project/${project.slug}`} className="bg-white rounded shadow overflow-hidden block group">
                 <div className="relative w-full h-64 sm:h-56">
                   {project?.imageUrl && (
                     <Image

@@ -8,6 +8,7 @@ type Project = {
   _id: string;
   name: string;
   imageUrl: string;
+  slug: string;
 };
 
 function ProjectList() {
@@ -57,8 +58,8 @@ function ProjectList() {
           <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-4">
             {projects.map((project) => (
               <Link
-                key={project._id}
-                href={`/projectdetail/${project._id}`}
+                key={project.slug}
+                href={`/project/${project.slug}`}
                 className="bg-white rounded shadow overflow-hidden block"
               >
                 <div className="relative group w-full h-64 sm:h-56">
