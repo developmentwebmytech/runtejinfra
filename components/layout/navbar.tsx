@@ -61,11 +61,6 @@ export default function Navbar() {
      
     },
     {
-      label: "JOIN US",
-      href: "/joinus",
-    
-    },
-    {
       label: "CONTACT US",
       href: "/contact",
       

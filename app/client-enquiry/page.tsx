@@ -101,6 +101,11 @@ export default function ClientEnquiryPage() {
     e.preventDefault()
     setError("")
 
+    if (attachments.length === 0) {
+      setError("Please upload at least one file")
+      return
+    }
+
     if (!formData.clientName || !formData.email || !formData.mobile || !formData.location) {
       setError("Please fill in all required fields")
       return
@@ -203,11 +208,7 @@ export default function ClientEnquiryPage() {
 
         {/* Form Container */}
         <form onSubmit={handleSubmit} className="space-y-6">
-          {error && (
-            <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-md">
-              <p className="text-red-700 text-sm">{error}</p>
-            </div>
-          )}
+
 
           {/* Section 1: Client Information */}
           <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
@@ -391,9 +392,11 @@ export default function ClientEnquiryPage() {
 
             <div className="p-6 space-y-4">
               <div>
+                
                 <label className="block text-xs font-semibold text-gray-700 mb-2">
                   Upload Drawings / BOQ / Scope (Optional)
                 </label>
+
 
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 hover:border-green-500 transition-colors">
                   <input
@@ -410,6 +413,8 @@ export default function ClientEnquiryPage() {
                     <span className="text-sm text-gray-600">Click to upload or drag and drop</span>
                     <span className="text-xs text-gray-500 mt-1">PDF or Image (Max 5MB each)</span>
                   </label>
+
+                 
                 </div>
 
                 {attachments.length > 0 && (
@@ -431,6 +436,8 @@ export default function ClientEnquiryPage() {
                     ))}
                   </div>
                 )}
+
+                
               </div>
             </div>
           </div>
@@ -468,6 +475,11 @@ export default function ClientEnquiryPage() {
               {loading ? "Submitting..." : " Submit Enquiry"}
             </button>
           </div>
+           {error && (
+                  <div className="bg-red-50 p-4 rounded-md">
+                    <p className="text-red-700 text-sm">{error}</p>
+                  </div>
+                )}
         </form>
 
         {/* Footer Note */}

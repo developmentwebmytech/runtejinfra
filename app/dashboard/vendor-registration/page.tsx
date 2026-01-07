@@ -10,6 +10,20 @@ import { Badge } from "@/components/ui/badge"
 import { Search, Download, Users, Calendar, ExternalLink, Filter, Eye } from "lucide-react"
 import ExcelJS from "exceljs"
 import { format } from "date-fns"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Trash2 } from "lucide-react"
+
+
 
 export default function VendorAdminDashboard() {
   const router = useRouter()
@@ -32,6 +46,24 @@ export default function VendorAdminDashboard() {
       setLoading(false)
     }
   }
+
+  const deleteVendor = async (id: string) => {
+    try {
+      const res = await fetch(`/api/admin/vendor-registration/${id}`, {
+        method: "DELETE",
+      })
+
+      if (!res.ok) {
+        alert("Delete failed")
+        return
+      }
+
+      setVendors((prev) => prev.filter((v) => v._id !== id))
+    } catch {
+      alert("Something went wrong")
+    }
+  }
+
 
   const exportToExcel = async () => {
     const workbook = new ExcelJS.Workbook()
@@ -264,19 +296,38 @@ export default function VendorAdminDashboard() {
                             <Eye className="h-4 w-4" />
                             <span className="sr-only">View Details</span>
                           </Button>
-                          {vendor.gstCertificateUrl && (
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              asChild
-                              className="h-9 w-9 text-muted-foreground hover:text-foreground hover:bg-muted"
-                            >
-                              <a href={vendor.gstCertificateUrl} target="_blank" rel="noopener noreferrer">
-                                <ExternalLink className="h-4 w-4" />
-                                <span className="sr-only">View GST Certificate</span>
-                              </a>
-                            </Button>
-                          )}
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="text-red-500 hover:text-red-700"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </AlertDialogTrigger>
+
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Delete vendor?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  This action cannot be undone.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                  className="bg-red-600 hover:bg-red-700"
+                                  onClick={() => deleteVendor(vendor._id)}
+                                >
+                                  Delete
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+
                         </div>
                       </TableCell>
                     </TableRow>

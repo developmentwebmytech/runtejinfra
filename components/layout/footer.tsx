@@ -66,13 +66,16 @@ function Footer() {
               <li><Link href="/about">About</Link></li>
               <li><Link href="/projectlist">Project List</Link></li>
 
-              {projectCategories.map((cat) => (
+              {/* {projectCategories.map((cat) => (
                 <li key={cat._id}>
                   <Link href={`/categories/${cat._id}`}>
                     {cat.name}
                   </Link>
                 </li>
-              ))}
+              ))} */}
+              <li><Link href="/employee-careers">Employee Careers</Link></li>
+              <li><Link href="/client-enquiry">Client Enquiry Form</Link></li>
+              <li><Link href="/vendor-registration">Vendor Registration</Link></li>
             </ul>
           </div>
 

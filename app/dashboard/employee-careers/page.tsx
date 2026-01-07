@@ -10,12 +10,28 @@ import { Search, Download, Users, Calendar, ExternalLink, Filter, Eye } from "lu
 import ExcelJS from "exceljs"
 import { format } from "date-fns"
 import { useRouter } from "next/navigation"
+import { Trash2 } from "lucide-react"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
+
 
 function AdminDashboard() {
   const router = useRouter()
   const [applications, setApplications] = useState<any[]>([])
   const [search, setSearch] = useState("")
   const [loading, setLoading] = useState(true)
+  const [deleteId, setDeleteId] = useState<string | null>(null)
+
 
   const [page, setPage] = useState(1)
   const pageSize = 10
@@ -34,6 +50,19 @@ function AdminDashboard() {
       console.log("[v0] Fetch failed", error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const deleteApplication = async (id: string) => {
+
+    try {
+      await fetch(`/api/admin/employee-careers/${id}`, {
+        method: "DELETE",
+      })
+
+      setApplications((prev) => prev.filter((app) => app._id !== id))
+    } catch (error) {
+      console.log("Delete failed", error)
     }
   }
 
@@ -276,19 +305,41 @@ function AdminDashboard() {
                             <Eye className="h-4 w-4" />
                             <span className="sr-only">View Details</span>
                           </Button>
-                          {app.resumeUrl && (
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              asChild
-                              className="h-9 w-9 text-muted-foreground hover:text-foreground hover:bg-muted"
-                            >
-                              <a href={app.resumeUrl} target="_blank" rel="noopener noreferrer">
-                                <ExternalLink className="h-4 w-4" />
-                                <span className="sr-only">View Resume</span>
-                              </a>
-                            </Button>
-                          )}
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-9 w-9 text-red-500 hover:bg-red-500/10"
+                                onClick={() => setDeleteId(app._id)}
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </AlertDialogTrigger>
+
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Delete application?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  This action cannot be undone.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                  className="bg-red-500 hover:bg-red-600"
+                                  onClick={() => {
+                                    if (deleteId) deleteApplication(deleteId)
+                                    setDeleteId(null)
+                                  }}
+                                >
+                                  Delete
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+
                         </div>
                       </TableCell>
                     </TableRow>

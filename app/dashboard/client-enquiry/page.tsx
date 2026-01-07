@@ -20,6 +20,19 @@ import {
 import ExcelJS from "exceljs"
 import { format } from "date-fns"
 import { useRouter } from "next/navigation"
+import { Trash2 } from "lucide-react"
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog"
+
 
 function ClientEnquiriesDashboard() {
   const router = useRouter()
@@ -59,6 +72,19 @@ function ClientEnquiriesDashboard() {
       setLoading(false)
     }
   }
+
+  const deleteEnquiry = async (id: string) => {
+    try {
+      await fetch(`/api/admin/client-enquiry/${id}`, {
+        method: "DELETE",
+      })
+
+      setEnquiries((prev) => prev.filter((e) => e._id !== id))
+    } catch (error) {
+      console.log("Delete failed", error)
+    }
+  }
+
 
   const exportToExcel = async () => {
     const workbook = new ExcelJS.Workbook()
@@ -220,11 +246,45 @@ function ClientEnquiriesDashboard() {
                   <TableCell>
                     {format(new Date(item.createdAt), "MMM d, yyyy")}
                   </TableCell>
-                  <TableCell className="text-right">
-                    <Button variant="ghost" size="icon">
-                      <Eye className="h-4 w-4" />
-                    </Button>
+                  <TableCell className="text-right" onClick={(e) => e.stopPropagation()}>
+                    <div className="flex justify-end gap-2">
+                      <Button variant="ghost" size="icon">
+                        <Eye className="h-4 w-4" />
+                      </Button>
+
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="text-red-500 hover:bg-red-500/10"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </AlertDialogTrigger>
+
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Delete enquiry?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              This action cannot be undone.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction
+                              className="bg-red-500 hover:bg-red-600"
+                              onClick={() => deleteEnquiry(item._id)}
+                            >
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </div>
                   </TableCell>
+
                 </TableRow>
               ))}
             </TableBody>

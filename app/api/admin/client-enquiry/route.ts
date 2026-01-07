@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from "next/server"
+import { type NextRequest, NextResponse } from "next/server"
 import path from "path"
 import fs from "fs/promises"
 import { connectDB } from "@/lib/mongodb"
 import ClientEnquiry from "@/lib/models/ClientEnquiry"
 
-const UPLOAD_DIR = path.join(process.cwd(), "public/uploads")
+const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads")
 const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
 
 const ALLOWED_TYPES = [
@@ -20,7 +20,9 @@ export async function POST(request: NextRequest) {
     await connectDB()
     const formData = await request.formData()
 
+    // files
     const files = formData.getAll("attachments") as File[]
+
     const uploadedFiles: string[] = []
 
     if (files.length > 0) {
@@ -44,12 +46,13 @@ export async function POST(request: NextRequest) {
         const fileName = `${Date.now()}-${file.name}`
         const filePath = path.join(UPLOAD_DIR, fileName)
         const buffer = Buffer.from(await file.arrayBuffer())
-
         await fs.writeFile(filePath, buffer)
+
         uploadedFiles.push(`/uploads/${fileName}`)
       }
     }
 
+    // normal fields
     const body = Object.fromEntries(formData.entries())
     delete body.attachments
 
@@ -61,13 +64,17 @@ export async function POST(request: NextRequest) {
     })
 
     return NextResponse.json(
-      { success: true, data: enquiry },
+      {
+        success: true,
+        message: "Enquiry submitted successfully",
+        data: enquiry,
+      },
       { status: 201 }
     )
   } catch (error: any) {
-    console.error(error)
+    console.error("Client Enquiry Error:", error)
     return NextResponse.json(
-      { message: "Server error" },
+      { message: error.message || "Internal server error" },
       { status: 500 }
     )
   }
@@ -78,9 +85,9 @@ export async function GET() {
     await connectDB()
     const enquiries = await ClientEnquiry.find().sort({ createdAt: -1 })
     return NextResponse.json(enquiries)
-  } catch {
+  } catch (error) {
     return NextResponse.json(
-      { message: "Failed to fetch enquiries" },
+      { message: "Error fetching enquiries" },
       { status: 500 }
     )
   }
