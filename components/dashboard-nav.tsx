@@ -124,10 +124,10 @@ export function DashboardNav({ setOpen }: DashboardNavProps) {
               onClick={() => setOpenApplications(!openApplications)}
               className={cn(
                 "flex items-center justify-between rounded-md px-3 py-3 text-sm font-medium w-full",
-                "hover:bg-gray-700 hover:text-white transition-colors"
+                "hover:bg-gray-700 hover:text-white  text-gray-700 not-[]:transition-colors"
               )}
             >
-              <div className="flex items-center">
+              <div className="flex items-center ">
                 <Package className="mr-2 h-4 w-4" />
                 Applications
               </div>
@@ -250,7 +250,7 @@ function NavLink({
       onClick={() => setOpen?.(false)}
       className={cn(
         "group flex items-center rounded-md px-3 py-3 text-sm font-medium",
-        "hover:bg-gray-900 hover:text-white transition-colors",
+        "hover:bg-gray-700 hover:text-white transition-colors",
         pathname === href ? "bg-gray-700 text-white" : "text-gray-600"
       )}
 
