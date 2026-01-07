@@ -9,16 +9,17 @@ import { Badge } from "@/components/ui/badge"
 import { Search, Download, MessageSquare, Calendar, Eye, Building2, MapPin, TrendingUp, Filter } from "lucide-react"
 import ExcelJS from "exceljs"
 import { format } from "date-fns"
-import { useSearchParams } from "next/navigation"
-import { EnquiryDetailsModal } from "@/components/admin/enquiry-detail-modal"
+import { useRouter } from "next/navigation"
 
 function ClientEnquiriesDashboard() {
+  const router = useRouter()
   const [enquiries, setEnquiries] = useState<any[]>([])
   const [search, setSearch] = useState("")
   const [loading, setLoading] = useState(true)
-  const [selectedEnquiry, setSelectedEnquiry] = useState<any | null>(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const searchParams = useSearchParams() // New line added
+
+  const [page, setPage] = useState(1)
+  const pageSize = 10
+
 
   useEffect(() => {
     fetchEnquiries()
@@ -52,6 +53,7 @@ function ClientEnquiriesDashboard() {
       setLoading(false)
     }
   }
+
 
   const exportToExcel = async () => {
     const workbook = new ExcelJS.Workbook()
@@ -91,9 +93,16 @@ function ClientEnquiriesDashboard() {
       item.companyName?.toLowerCase().includes(search.toLowerCase()),
   )
 
-  const openDetails = (item: any) => {
-    setSelectedEnquiry(item)
-    setIsModalOpen(true)
+  const totalPages = Math.ceil(filteredEnquiries.length / pageSize)
+
+  const paginatedEnquiries = filteredEnquiries.slice(
+    (page - 1) * pageSize,
+    page * pageSize
+  )
+
+
+  const openDetails = (enquiryId: string) => {
+    router.push(`/dashboard/client-enquiry/enquiry/${enquiryId}`)
   }
 
   return (
@@ -163,8 +172,12 @@ function ClientEnquiriesDashboard() {
               placeholder="Search by client, project, or company..."
               className="pl-10 bg-card border-border h-11"
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => {
+                setSearch(e.target.value)
+                setPage(1)
+              }}
             />
+
           </div>
           <div className="flex items-center gap-4">
             <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground">
@@ -208,11 +221,12 @@ function ClientEnquiriesDashboard() {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  filteredEnquiries.map((item) => (
+                  paginatedEnquiries.map((item) => (
+
                     <TableRow
                       key={item._id}
                       className="group cursor-pointer hover:bg-muted/20 transition-colors"
-                      onClick={() => openDetails(item)}
+                      onClick={() => openDetails(item._id)}
                     >
                       <TableCell className="px-6 py-4">
                         <div className="flex flex-col gap-0.5">
@@ -244,7 +258,7 @@ function ClientEnquiriesDashboard() {
                         {format(new Date(item.createdAt), "MMM d, yyyy")}
                       </TableCell>
                       <TableCell className="text-right px-6">
-                        <Button variant="ghost" size="icon" onClick={() => openDetails(item)}>
+                        <Button variant="ghost" size="icon" onClick={() => openDetails(item._id)}>
                           <Eye className="h-4 w-4" />
                         </Button>
                       </TableCell>
@@ -253,11 +267,34 @@ function ClientEnquiriesDashboard() {
                 )}
               </TableBody>
             </Table>
+
+            <div className="flex justify-end items-center gap-3 mt-4">
+              <Button
+                size="sm"
+                variant="outline"
+                disabled={page === 1}
+                onClick={() => setPage(page - 1)}
+              >
+                Previous
+              </Button>
+
+              <span className="text-sm text-muted-foreground">
+                Page {page} of {totalPages}
+              </span>
+
+              <Button
+                size="sm"
+                variant="outline"
+                disabled={page === totalPages}
+                onClick={() => setPage(page + 1)}
+              >
+                Next
+              </Button>
+            </div>
+
           </div>
         </div>
       </div>
-
-      <EnquiryDetailsModal enquiry={selectedEnquiry} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   )
 }

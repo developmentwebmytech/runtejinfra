@@ -9,16 +9,17 @@ import { Badge } from "@/components/ui/badge"
 import { Search, Download, Users, Calendar, ExternalLink, Filter, Eye } from "lucide-react"
 import ExcelJS from "exceljs"
 import { format } from "date-fns"
-import { useSearchParams } from "next/navigation"
-import { ApplicationDetailsModal } from "@/components/admin/application-detail-modal"
+import { useRouter } from "next/navigation"
 
 function AdminDashboard() {
-  const searchParams = useSearchParams()
+  const router = useRouter()
   const [applications, setApplications] = useState<any[]>([])
   const [search, setSearch] = useState("")
   const [loading, setLoading] = useState(true)
-  const [selectedApp, setSelectedApp] = useState<any | null>(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const [page, setPage] = useState(1)
+  const pageSize = 10
+
 
   useEffect(() => {
     fetchApplications()
@@ -35,6 +36,8 @@ function AdminDashboard() {
       setLoading(false)
     }
   }
+
+
 
   const exportToExcel = async () => {
     const workbook = new ExcelJS.Workbook()
@@ -76,14 +79,21 @@ function AdminDashboard() {
       app.positionAppliedFor.toLowerCase().includes(search.toLowerCase()),
   )
 
-  const openDetails = (app: any) => {
-    setSelectedApp(app)
-    setIsModalOpen(true)
+
+  const totalPages = Math.ceil(filteredApps.length / pageSize)
+
+  const paginatedApps = filteredApps.slice(
+    (page - 1) * pageSize,
+    page * pageSize
+  )
+
+  const openDetails = (appId: string) => {
+    router.push(`/dashboard/employee-careers/applications/${appId}`)
   }
 
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
-      <div className="max-w-[1400px] mx-auto px-4 py-10 md:px-8 space-y-10">
+      <div className="container mx-auto px-4 py-4 md:px-8 space-y-10">
         {/* Header */}
         <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-2">
           <div className="space-y-2">
@@ -220,11 +230,11 @@ function AdminDashboard() {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  filteredApps.map((app) => (
+                  paginatedApps.map((app) => (
                     <TableRow
                       key={app._id}
                       className="group cursor-pointer hover:bg-muted/30 transition-colors border-b border-border/50 last:border-0"
-                      onClick={() => openDetails(app)}
+                      onClick={() => openDetails(app._id)}
                     >
                       <TableCell className="py-5 px-6">
                         <div className="flex items-center gap-3">
@@ -250,7 +260,6 @@ function AdminDashboard() {
                       <TableCell>
                         <div className="flex items-center gap-2">
                           <span className="font-medium">{app.totalYearsExperience}</span>
-                          <span className="text-xs text-muted-foreground">Years</span>
                         </div>
                       </TableCell>
                       <TableCell className="text-muted-foreground text-sm font-medium">
@@ -262,7 +271,7 @@ function AdminDashboard() {
                             variant="ghost"
                             size="icon"
                             className="h-9 w-9 text-muted-foreground hover:text-foreground hover:bg-muted"
-                            onClick={() => openDetails(app)}
+                            onClick={() => openDetails(app._id)}
                           >
                             <Eye className="h-4 w-4" />
                             <span className="sr-only">View Details</span>
@@ -287,11 +296,32 @@ function AdminDashboard() {
                 )}
               </TableBody>
             </Table>
+
+            <div className="flex justify-center items-center gap-4 py-6">
+              <Button
+                variant="outline"
+                disabled={page === 1}
+                onClick={() => setPage(page - 1)}
+              >
+                Previous
+              </Button>
+
+              <span className="text-sm">
+                Page {page} of {totalPages || 1}
+              </span>
+
+              <Button
+                variant="outline"
+                disabled={page === totalPages || totalPages === 0}
+                onClick={() => setPage(page + 1)}
+              >
+                Next
+              </Button>
+            </div>
+
           </div>
         </div>
       </div>
-
-      <ApplicationDetailsModal application={selectedApp} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   )
 }
