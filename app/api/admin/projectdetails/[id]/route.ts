@@ -1,16 +1,16 @@
-import { NextRequest, NextResponse } from "next/server"
+import { type NextRequest, NextResponse } from "next/server"
 import { connectDB } from "@/lib/mongodb"
-import { Project } from "@/lib/models/PropertyDetail" // ✅ important fix
+import { Project } from "@/lib/models/PropertyDetail"
+import { unlink } from "fs/promises"
+import { join } from "path"
 
-export async function GET(request: NextRequest, context: { params: { id: string } }) {
+export async function GET(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     await connectDB()
 
-    const { id } = context.params // ✅ fixed here
-    console.log("Fetching project with ID:", id)
+    const { id } = await context.params
 
     const project = await Project.findById(id).populate("category")
-    console.log("Fetched Project:", project ? project.name : "Not Found")
 
     if (!project) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 })
@@ -24,82 +24,84 @@ export async function GET(request: NextRequest, context: { params: { id: string 
 }
 
 // ✅ PUT /api/project/[id] - Update project
-export async function PUT(request: NextRequest, context: { params: { id: string } }) {
+export async function PUT(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
-    await connectDB();
-    const id = context.params.id;
-    const body = await request.json();
-    const {
-      name,
-      address,
-      propertyType,
-      floor,
-      sampleUnit,
-      basement,
-      totalBuiltUpArea,
-      yearOfCompletion,
-      description,
-      locationLink,
-      category,
-      imageUrl,
-      planImage
-    } = body;
+    await connectDB()
 
-    // Validation
-    if (!name || !address || !category) {
-      return NextResponse.json(
-        { error: "Name, address, and category are required" },
-        { status: 400 }
-      );
-    }
+    const { id } = await context.params
+    const body = await request.json()
 
     const updatedProject = await Project.findByIdAndUpdate(
       id,
       {
-        name,
-        address,
-        propertyType,
-        floor: Number(floor),
-        sampleUnit,
-        basement,
-        totalBuiltUpArea,
-        yearOfCompletion: Number(yearOfCompletion),
-        description,
-        locationLink,
-        category,
-        imageUrl,
+        ...body,
+        floor: Number(body.floor),
+        yearOfCompletion: Number(body.yearOfCompletion),
         updatedAt: new Date(),
-        planImage: planImage || [], // Ensure planImage is an array
+        planImage: body.planImage || [],
       },
-      { new: true }
-    ).populate("category");
+      { new: true },
+    ).populate("category")
 
     if (!updatedProject) {
-      return NextResponse.json({ error: "Project not found" }, { status: 404 });
+      return NextResponse.json({ error: "Project not found" }, { status: 404 })
     }
 
-    return NextResponse.json(updatedProject, { status: 200 });
+    return NextResponse.json(updatedProject)
   } catch (error) {
-    console.error("Error updating project:", error);
-    return NextResponse.json({ error: "Failed to update project" }, { status: 500 });
+    console.error("Error updating project:", error)
+    return NextResponse.json({ error: "Failed to update project" }, { status: 500 })
   }
 }
 
-// ✅ DELETE /api/project/[id] - Delete project
-export async function DELETE(request: NextRequest, context: { params: { id: string } }) {
+// ✅ DELETE /api/project/[id] - Delete project with file cleanup
+export async function DELETE(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
-    await connectDB();
-    const id = context.params.id;
+    await connectDB()
 
-    const deletedProject = await Project.findByIdAndDelete(id);
+    const { id } = await context.params
 
-    if (!deletedProject) {
-      return NextResponse.json({ error: "Project not found" }, { status: 404 });
+    const project = await Project.findById(id)
+
+    if (!project) {
+      return NextResponse.json({ error: "Project not found" }, { status: 404 })
     }
 
-    return NextResponse.json({ message: "Project deleted successfully" }, { status: 200 });
+    const filesToDelete: string[] = []
+
+    // Add main image
+    if (project.imageUrl) {
+      const filename = project.imageUrl.split("/uploads/")[1]
+      if (filename) filesToDelete.push(filename)
+    }
+
+    // Add plan images
+    if (project.planImage && Array.isArray(project.planImage)) {
+      project.planImage.forEach((image) => {
+        if (image.url) {
+          const filename = image.url.split("/uploads/")[1]
+          if (filename) filesToDelete.push(filename)
+        }
+      })
+    }
+
+    // Delete files from filesystem
+    for (const filename of filesToDelete) {
+      try {
+        const filePath = join(process.cwd(), "public/uploads", filename)
+        await unlink(filePath)
+      } catch (err) {
+        console.error(`Failed to delete file: ${filename}`, err)
+        // Continue with other files even if one fails
+      }
+    }
+
+    // Delete project from database
+    const deletedProject = await Project.findByIdAndDelete(id)
+
+    return NextResponse.json({ message: "Project deleted successfully" })
   } catch (error) {
-    console.error("Error deleting project:", error);
-    return NextResponse.json({ error: "Failed to delete project" }, { status: 500 });
+    console.error("Error deleting project:", error)
+    return NextResponse.json({ error: "Failed to delete project" }, { status: 500 })
   }
 }

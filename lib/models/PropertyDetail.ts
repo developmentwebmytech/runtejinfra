@@ -1,4 +1,3 @@
-// models/project.ts
 import mongoose, { Schema, type Document, models } from "mongoose"
 
 export interface IProject extends Document {
@@ -12,6 +11,8 @@ export interface IProject extends Document {
   floor?: number
   sampleUnit?: string
   basement?: string
+  about?: string
+  feature?: string
   totalBuiltUpArea?: string
   yearOfCompletion?: number
   category: mongoose.Schema.Types.ObjectId
@@ -56,6 +57,9 @@ const ProjectSchema = new Schema<IProject>(
 
     yearOfCompletion: { type: Number },
 
+    about: { type: String },
+    feature: { type: String },
+
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
@@ -70,7 +74,7 @@ const ProjectSchema = new Schema<IProject>(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 )
 
 // 🔹 Auto create slug from name
@@ -86,5 +90,4 @@ ProjectSchema.pre("save", function (next) {
   next()
 })
 
-export const Project =
-  models.Project || mongoose.model<IProject>("Project", ProjectSchema)
+export const Project = models.Project || mongoose.model<IProject>("Project", ProjectSchema)

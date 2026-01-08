@@ -1,28 +1,26 @@
-import { type NextRequest, NextResponse } from "next/server";
-import { connectDB } from "@/lib/mongodb"; // make sure this connects to MongoDB
-import { Project } from "@/lib/models/PropertyDetail";
+import { type NextRequest, NextResponse } from "next/server"
+import { connectDB } from "@/lib/mongodb"
+import { Project } from "@/lib/models/PropertyDetail"
 
 // 🟢 GET: Fetch all projects
 export async function GET() {
   try {
-    await connectDB();
+    await connectDB()
 
-    const projects = await Project.find().populate("category").sort({ createdAt: -1 });
-    // console.log("Fetched Projects:", projects);
-    return NextResponse.json(projects);
+    const projects = await Project.find().populate("category").sort({ createdAt: -1 })
+    return NextResponse.json(projects)
   } catch (error) {
-    console.error("Error fetching projects:", error);
-    return NextResponse.json({ error: "Failed to fetch projects" }, { status: 500 });
+    console.error("Error fetching projects:", error)
+    return NextResponse.json({ error: "Failed to fetch projects" }, { status: 500 })
   }
 }
 
 // 🔵 POST: Create new project
 export async function POST(request: NextRequest) {
   try {
-    await connectDB();
+    await connectDB()
 
-    const body = await request.json();
-    // console.log("Create Project Body:", body);  
+    const body = await request.json()
     const {
       name,
       address,
@@ -36,12 +34,14 @@ export async function POST(request: NextRequest) {
       locationLink,
       category,
       imageUrl,
-      planImage
-    } = body;
+      planImage,
+      about,
+      feature,
+    } = body
 
     // Basic validation
     if (!name || !address || !category) {
-      return NextResponse.json({ error: "Name, address, and category are required" }, { status: 400 });
+      return NextResponse.json({ error: "Name, address, and category are required" }, { status: 400 })
     }
 
     const newProject = await Project.create({
@@ -57,12 +57,14 @@ export async function POST(request: NextRequest) {
       description,
       locationLink,
       category,
-      planImage: planImage || [], // Ensure planImage is an array
-    });
+      about,
+      feature,
+      planImage: planImage || [],
+    })
 
-    return NextResponse.json(newProject, { status: 201 });
+    return NextResponse.json(newProject, { status: 201 })
   } catch (error) {
-    console.error("Error creating project:", error);
-    return NextResponse.json({ error: "Failed to create project" }, { status: 500 });
+    console.error("Error creating project:", error)
+    return NextResponse.json({ error: "Failed to create project" }, { status: 500 })
   }
 }

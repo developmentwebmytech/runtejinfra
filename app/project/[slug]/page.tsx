@@ -1,9 +1,13 @@
-'use client'
+"use client"
 
 import React, { useEffect, useState } from "react"
-import { useParams, notFound, useRouter } from "next/navigation"
+import { useParams } from "next/navigation"
 import Image from "next/image"
 import { FaMapMarkerAlt } from "react-icons/fa"
+import dynamic from "next/dynamic"
+
+const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false })
+import "react-quill-new/dist/quill.snow.css"
 
 interface PlanImage {
   url: string
@@ -27,6 +31,8 @@ interface Project {
   totalBuiltUpArea: string
   yearOfCompletion: string
   locationLink: string
+  about?: string
+  feature?: string
 }
 
 export default function ProjectPage() {
@@ -37,7 +43,7 @@ export default function ProjectPage() {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const res = await fetch(`/api/project/${slug}`, { cache: 'no-store' })
+        const res = await fetch(`/api/project/${slug}`, { cache: "no-store" })
         if (!res.ok) return setProject(null)
         const data = await res.json()
         setProject(data)
@@ -61,13 +67,10 @@ export default function ProjectPage() {
         className="relative h-[80vh] bg-cover bg-center px-4 md:px-16"
         style={{ backgroundImage: `url(${project.imageUrl})` }}
       >
-        <div className="absolute top-5 left-5 bg-black text-white text-xs px-3 py-1 rounded">
-          PROJECT SHOWCASE
-        </div>
+        <div className="absolute top-5 left-5 bg-black text-white text-xs px-3 py-1 rounded">PROJECT SHOWCASE</div>
 
         <div className="absolute top-20 left-4 md:left-16 text-white text-sm flex gap-2 items-center">
-          <span>Home</span> / <span>Projects</span> /{" "}
-          <span className="font-semibold">{project.name}</span>
+          <span>Home</span> / <span>Projects</span> / <span className="font-semibold">{project.name}</span>
         </div>
 
         <div className="absolute bottom-10 left-4 md:left-16 text-white max-w-[90%]">
@@ -139,10 +142,9 @@ export default function ProjectPage() {
 
 function TabsSection({ project }: { project: Project }) {
   const [activeTab, setActiveTab] = React.useState("about")
-  const tabs = ["about","location", "plans"]
+  const tabs = ["about", "features", "location", "plans"]
   const tabClass = (tab: string) =>
-    `capitalize pb-2 transition-all ${
-      activeTab === tab ? "text-black-700 border-b-2 border-green-700" : "text-gray-500"
+    `capitalize pb-2 transition-all ${activeTab === tab ? "text-black-700 border-b-2 border-green-700" : "text-gray-500"
     }`
 
   return (
@@ -157,11 +159,54 @@ function TabsSection({ project }: { project: Project }) {
 
       <div className="px-4 md:px-16 mt-10 mb-20">
         {activeTab === "about" && (
-          <div className="bg-white p-6 rounded shadow">
-            <h2 className="text-2xl font-semibold mb-4">About</h2>
-            <p className="text-gray-600">{project.description}</p>
+          <div className="bg-white p-4 md:p-6 rounded shadow">
+            <h2 className="text-xl md:text-2xl font-semibold mb-4">About</h2>
+
+            <div
+              className="text-gray-600 max-w-full break-words"
+              style={{
+                wordBreak: "break-word",
+                overflowWrap: "break-word",
+              }}
+            >
+              {project.about ? (
+                <div
+                  style={{ maxWidth: "100%" }}
+                  dangerouslySetInnerHTML={{ __html: project.about }}
+                />
+              ) : (
+                <p>{project.description}</p>
+              )}
+            </div>
+
           </div>
         )}
+
+
+        {activeTab === "features" && (
+          <div className="bg-white p-4 md:p-6 rounded shadow">
+            <h2 className="text-xl md:text-2xl font-semibold mb-4">Features</h2>
+
+            <div
+              className="text-gray-600 max-w-full break-words"
+              style={{
+                wordBreak: "break-word",
+                overflowWrap: "break-word",
+              }}
+            >
+              {project.feature ? (
+                <div
+                  style={{ maxWidth: "100%" }}
+                  dangerouslySetInnerHTML={{ __html: project.feature }}
+                />
+              ) : (
+                <p className="text-gray-400">No features listed</p>
+              )}
+            </div>
+
+          </div>
+        )}
+
 
         {activeTab === "location" && (
           <div className="bg-white p-6 rounded shadow">
@@ -176,22 +221,33 @@ function TabsSection({ project }: { project: Project }) {
         )}
 
         {activeTab === "plans" && (
-          <div className="bg-white p-6 rounded shadow">
-            <h2 className="text-2xl font-semibold mb-8">Plans</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {project.planImage?.map((img, idx) => (
-                <div key={idx} className="relative w-full h-64">
-                  <Image
-                    src={img.url}
-                    alt={img.altText || `Plan ${idx + 1}`}
-                    fill
-                    className="object-contain rounded"
-                  />
-                </div>
-              ))}
-            </div>
+  <div className="bg-white p-6 rounded shadow">
+    <h2 className="text-2xl font-semibold mb-8">Plans</h2>
+
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {project.planImage?.map((img, idx) => (
+        <div key={idx} className="flex flex-col items-center">
+          
+          <div className="relative w-full h-64">
+            <Image
+              src={img.url || "/placeholder.svg"}
+              alt={img.altText || `Plan ${idx + 1}`}
+              fill
+              className="object-contain rounded"
+            />
           </div>
-        )}
+
+          {/* Plan name */}
+          <p className="mt-2 text-sm text-gray-600 text-center">
+            {img.altText || `Plan ${idx + 1}`}
+          </p>
+
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
       </div>
     </>
   )
