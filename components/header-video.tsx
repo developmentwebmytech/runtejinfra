@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link';
 
 function VideoSection() {
   return (
@@ -21,11 +22,13 @@ function VideoSection() {
           Strong Structures Stronger Trust
         </h1>
         <p className="text-base sm:text-lg lg:text-[18px] md:text-xl mb-6 text-gray-200">
-          We build more than just buildings – we build trust. With strong design, quality material, and expert teams, <br/>We build lasting structures that shape homes, offices, Industries, Corporates and communities for generations to come.<br/>Your vision, our foundation
+          We build more than just buildings – we build trust. With strong design, quality material, and expert teams, <br />We build lasting structures that shape homes, offices, Industries, Corporates and communities for generations to come.<br />Your vision, our foundation
         </p>
-        <button className="px-6 py-2 text-sm sm:text-base bg-green-600 hover:bg-green-700 rounded">
-          Read More...
-        </button>
+        <Link href="/categories">
+          <button className="px-6 py-2 text-sm sm:text-base bg-green-600 cursor-pointer hover:bg-green-700 rounded">
+            Read More...
+          </button>
+        </Link>
       </div>
 
 

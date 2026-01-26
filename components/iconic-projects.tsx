@@ -83,9 +83,10 @@ function SecondSection() {
         </div>
 
         <div className="text-center mt-10">
-          <button className="px-6 py-2 border bg-green-600 text-white rounded hover:bg-green-700 transition">
+
+          <Link href="/projectlist" className="px-6 py-2 border bg-green-600 text-white rounded hover:bg-green-700 transition">
             View All Projects
-          </button>
+          </Link>
         </div>
       </div>
 

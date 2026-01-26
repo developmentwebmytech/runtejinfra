@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -76,9 +77,9 @@ export default function ThirdSection() {
               We create environment that nourishes the soul and enhances and upgrades daily life, where every moment is a celebration of living with purpose. We shape spaces and moments that elevate your lifestyle, making every day experiences extraordinary through Creative and thoughtful designs.
             </p>
 
-            <button className="border rounded px-6 py-2 text-sm text-white bg-green-600 hover:bg-green-700 transition cursor-pointer">
+            <Link href="/projectlist" className="border rounded px-6 py-2 text-sm text-white bg-green-600 hover:bg-green-700 transition cursor-pointer">
               Read More...
-            </button>
+            </Link>
           </div>
         </div>
 

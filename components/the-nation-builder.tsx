@@ -2,6 +2,7 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
+import Link from "next/link";
 
 export default function FirstSection() {
   const imageRef = useRef(null);
@@ -9,31 +10,29 @@ export default function FirstSection() {
 
   useEffect(() => {
     gsap.from(imageRef.current, {
-      x: -80,
-      rotation: -15,
+      y: 60,
       opacity: 0,
-      duration: 1.3,
-      ease: "elastic.out(1, 0.7)",
+      duration: 0.5,
+      ease: "power2.out",
       scrollTrigger: {
         trigger: imageRef.current,
-        start: "top 85%",
-        toggleActions: "play none none none",
+        start: "top 90%",
       },
     });
 
     gsap.from(contentRef.current, {
-      rotationY: 90,
-      scale: 0.6,
+      y: 40,
       opacity: 0,
-      duration: 1.3,
-      ease: "back.out(1.5)",
-      transformOrigin: "right center",
+      delay: 0.1,
+      duration: 0.5,
+      ease: "power2.out",
       scrollTrigger: {
         trigger: contentRef.current,
-        start: "top 85%",
-        toggleActions: "play none none none",
+        start: "top 90%",
       },
     });
+
+
   }, []);
 
   return (
@@ -69,9 +68,11 @@ export default function FirstSection() {
               We are a fast-growing construction organization, aiming to build unique and eco-friendly structures for India. Ranked among the fastest developing in the construction industry, we help shape the image of India globally by executing large industrial and infrastructure projects.
             </p>
 
+            <Link href="/projectlist">
             <button className="bg-green-600 hover:bg-green-700 text-white text-sm px-6 py-2 rounded transition">
               Read More...
             </button>
+            </Link>
           </div>
         </div>
       </div>

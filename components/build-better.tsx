@@ -33,9 +33,9 @@ function Fourth() {
     }, []);
 
     return (
-        <div className="bg-white py-8">
+        <div className="bg-white py-8 overflow-x-hidden">
             <div className="container px-4 mx-auto">
-                <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-6 min-h-screen text-black">
+                <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-6 min-h-screen text-black overflow-hidden">
 
                     {/* Left Text Section */}
                     <div ref={leftRef} className="text-center lg:text-left">
@@ -53,7 +53,7 @@ function Fourth() {
                     </div>
 
                     {/* Right Image Section */}
-                    <div ref={rightRef} className="flex justify-center lg:justify-end -mx-4 lg:pr-0">
+                    <div ref={rightRef} className="flex justify-center lg:justify-end overflow-hidden">
                         <div className="relative group w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
 
                             {/* Main Image */}
@@ -78,7 +78,7 @@ function Fourth() {
                                     width: '60%',
                                     height: '70%',
                                     bottom: '5%',
-                                    left: '-35%',
+                                    left: 'max(-35%, -100px)',
                                     zIndex: 10,
                                 }}
                             />

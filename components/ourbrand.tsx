@@ -20,7 +20,7 @@ interface Firm {
 
 function OurBrand() {
   const [firms, setFirms] = useState<Firm[]>([]);
-    const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true)
 
   // ✅ fetch firms from API
   useEffect(() => {
@@ -29,10 +29,11 @@ function OurBrand() {
         const res = await fetch("/api/our-firms");
         if (!res.ok) throw new Error();
         const data = await res.json();
+        console.log(data)
         setFirms(data);
       } catch (error) {
         console.error("Failed to load firms");
-      }finally {
+      } finally {
         setLoading(false)
       }
     };
@@ -59,12 +60,12 @@ function OurBrand() {
   }, [firms]);
 
   if (loading) {
-      return (
-        <div className="container mx-auto py-12 flex justify-center">
-          <Spinner />
-        </div>
-      )
-    }
+    return (
+      <div className="container mx-auto py-12 flex justify-center">
+        <Spinner />
+      </div>
+    )
+  }
 
   return (
     <div className="container mx-auto px-4 py-12 sm:py-15">
@@ -79,7 +80,7 @@ function OurBrand() {
           slidesPerView={2}
           loop
           autoplay={{ delay: 3000, reverseDirection: true, disableOnInteraction: false }}
-          
+
           breakpoints={{
             640: { slidesPerView: 3 },
             768: { slidesPerView: 4 },
@@ -96,6 +97,11 @@ function OurBrand() {
                   height={74}
                   className="object-contain mx-auto"
                 />
+
+                {/* ✅ Firm name */}
+                <p className="mt-3 text-sm font-medium text-gray-700">
+                  {firm.name}
+                </p>
               </div>
             </SwiperSlide>
           ))}

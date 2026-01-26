@@ -58,29 +58,32 @@ export default function Navbar() {
     {
       label: "ABOUT US",
       href: "/about",
-     
+
     },
     {
       label: "CONTACT US",
       href: "/contact",
-      
+
     },
   ];
 
   return (
     <>
       <div className="container">
-        <nav className={`flex items-center justify-evenly px-16 py-3 text-black ${navbarClasses}`}>
-          <Link href="/">
+        <nav className={`flex items-center px-16 py-3 text-black ${navbarClasses}`}>
+          {/* Logo - left */}
+          <Link href="/" className="flex-shrink-0">
             <div className="w-32 relative h-15 cursor-pointer">
               <Image src="/tlogo.png" alt="Logo" fill style={{ objectFit: "contain" }} priority />
             </div>
           </Link>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-10 text-md font-semibold">
+          {/* Center menu */}
+          <div className="hidden md:flex flex-1 justify-center items-center space-x-10 text-md font-semibold">
             {menuItems.map((item, idx) => (
               <div key={idx} className="relative group">
+
+                {/* Menu item */}
                 <div className="flex items-center space-x-1 hover:text-green-500 cursor-pointer">
                   <Link href={item.href}>{item.label}</Link>
                   {item.hasDropdown && (
@@ -89,28 +92,37 @@ export default function Navbar() {
                     </svg>
                   )}
                 </div>
+
+                {/* ✅ PLACE DROPDOWN HERE */}
                 {item.hasDropdown && item.dropdown && (
-                  <div className="absolute top-full left-0 mt-4 bg-white shadow-lg z-50 w-64 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+       <div className="absolute top-[100%] left-1/2 -translate-x-1/2 mt-7 bg-white shadow-lg z-50 w-64 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+
                     {item.dropdown.map((drop, dropIdx) => (
                       <Link
                         key={drop.href + dropIdx}
                         href={drop.href}
-                        className="block px-4 py-2 hover:bg-gray-100 text-sm text-gray-800"
+                        className="block px-4 py-4 hover:bg-gray-100 text-sm text-gray-800"
                       >
                         {drop.label}
                       </Link>
                     ))}
                   </div>
                 )}
+
               </div>
             ))}
+
           </div>
 
-          {/* Mobile toggle */}
-          <div onClick={() => setIsOpen(true)} className="text-black text-2xl font-bold cursor-pointer md:hidden">
+          {/* Mobile toggle - right */}
+          <div
+            onClick={() => setIsOpen(true)}
+            className="text-black text-2xl ml-auto font-bold cursor-pointer md:hidden"
+          >
             &#9776;
           </div>
         </nav>
+
 
         {/* Mobile Dropdown */}
         {isOpen && (
