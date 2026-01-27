@@ -90,7 +90,7 @@ export default function CategoriesPage() {
   }
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="container mx-auto py-5">
       {parentCategory && (
         <div className="bg-green-100 px-4 py-6 rounded-md mb-10">
           <h1 className="text-3xl font-semibold mb-2">

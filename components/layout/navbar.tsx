@@ -75,12 +75,12 @@ export default function Navbar() {
           <nav className={`flex items-center px-6  py-3 text-black ${navbarClasses}`}>
             {/* Logo - left */}
             <Link href="/" className="flex-shrink-0">
-              <div className="w-32 relative h-15 cursor-pointer">
-                <Image src="/tlogo.png" alt="Logo" fill style={{ objectFit: "contain" }} priority />
+              <div className="w-34 relative h-17 cursor-pointer">
+                <Image src="/tlogo2.png" alt="Logo" fill style={{ objectFit: "contain" }} priority />
               </div>
             </Link>
 
-{/* Center menu - visible only on lg and above */}
+            {/* Center menu - visible only on lg and above */}
             <div className="hidden lg:flex flex-1 justify-center items-center space-x-10 text-md font-semibold">
               {menuItems.map((item, idx) => (
                 <div key={idx} className="relative group">
@@ -116,7 +116,7 @@ export default function Navbar() {
 
             </div>
 
-{/* Mobile/Tablet toggle - right */}
+            {/* Mobile/Tablet toggle - right */}
             <button
               type="button"
               onClick={() => setIsOpen(true)}
@@ -130,7 +130,7 @@ export default function Navbar() {
           </nav>
 
 
-{/* Mobile Dropdown */}
+          {/* Mobile Dropdown */}
           {isOpen && (
             <div className="fixed inset-0 z-50 bg-white md:bg-black/80 text-black md:text-white overflow-y-auto">
               {/* Mobile Header */}
@@ -140,8 +140,8 @@ export default function Navbar() {
                     <Image src="/tlogo.png" alt="Logo" fill style={{ objectFit: "contain" }} priority />
                   </div>
                 </Link>
-                <button 
-                  onClick={() => setIsOpen(false)} 
+                <button
+                  onClick={() => setIsOpen(false)}
                   className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 md:bg-white/10 hover:bg-gray-200 md:hover:bg-white/20 transition-colors"
                   aria-label="Close menu"
                 >
@@ -180,11 +180,11 @@ export default function Navbar() {
                             }}
                           >
                             {item.label}
-                            <svg 
-                              className={`w-5 h-5 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} 
-                              fill="none" 
-                              stroke="currentColor" 
-                              strokeWidth="2" 
+                            <svg
+                              className={`w-5 h-5 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`}
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
                               viewBox="0 0 24 24"
                             >
                               <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />

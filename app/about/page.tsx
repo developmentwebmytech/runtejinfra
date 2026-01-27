@@ -65,7 +65,7 @@ export default function About() {
       </section>
 
       {/* Vision & Mission Section */}
-      <section  id='vision-mission' className="relative z-10 bg-white px-6 md:px-12 lg:px-20 pt-16 pb-20 rounded-t-[2.5rem] -mt-10 shadow-xl">
+      <section  id='vision-mission' className="relative z-10 bg-white px-6 md:px-12 lg:px-20 pt-16 pb-20 rounded-t-[2.5rem] -mt-10">
 
         <div className="max-w-8xl mx-auto grid grid-cols-2 sm:grid-cols-2  lg:grid-cols-2 gap-12 items-center">
 

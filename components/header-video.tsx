@@ -24,7 +24,7 @@ function VideoSection() {
         <p className="text-base sm:text-lg lg:text-[18px] md:text-xl mb-6 text-gray-200">
           We build more than just buildings – we build trust. With strong design, quality material, and expert teams, <br />We build lasting structures that shape homes, offices, Industries, Corporates and communities for generations to come.<br />Your vision, our foundation
         </p>
-        <Link href="/categories">
+        <Link href="/category">
           <button className="px-6 py-2 text-sm sm:text-base bg-green-600 cursor-pointer hover:bg-green-700 rounded">
             Read More
           </button>

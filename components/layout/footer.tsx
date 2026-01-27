@@ -23,7 +23,7 @@ function Footer() {
 
         const parentCategories = (data.allcategories || [])
           .filter((cat: Category) => cat.parentCategory === null)
-          .slice(0, 3);
+          .slice(0, 6);
 
         setProjectCategories(parentCategories);
       } catch (err) {
@@ -43,28 +43,35 @@ function Footer() {
 
           <div>
             <ul className="space-y-3">
-              <li><Link href="/ourstory">Our Story</Link></li>
-              <li><Link href="/ourimpact">Our Impact</Link></li>
-              <li><Link href="/joinus">Careers</Link></li>
-              <li><Link href="/media">Media Gallery</Link></li>
-              <li><Link href="/categories">All Categories</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <ul className="space-y-3">
-              <li><Link href="/login">Login</Link></li>
-              <li><Link href="/testimonials">Brand Experience</Link></li>
+          
+              <li><Link href="/">Home</Link></li>
+              <li><Link href="/about">About Us</Link></li>
+              <li><Link href="/media">Media</Link></li>
               <li><Link href="/blog">Blogs</Link></li>
               <li><Link href="/contact">Contact Us</Link></li>
-              <li><Link href="/termsandcondition">Terms & Conditions</Link></li>
             </ul>
           </div>
 
           <div>
             <ul className="space-y-3">
-              <li><Link href="/about">About</Link></li>
-              <li><Link href="/projectlist">Project List</Link></li>
+               {projectCategories.map((cat) => (
+                <li key={cat._id}>
+                  <Link href={`/category/${cat.slug}`}>
+                    {cat.name}
+                  </Link>
+                </li>
+              ))}
+              
+              
+             
+            </ul>
+          </div>
+
+          <div>
+            <ul className="space-y-3">
+              
+              <li><Link href="/testimonials">Testimonials</Link></li>
+               <li><Link href="/termsandcondition">Terms & Conditions</Link></li>
 
               {/* {projectCategories.map((cat) => (
                 <li key={cat._id}>
@@ -80,7 +87,7 @@ function Footer() {
           </div>
 
           <div className="flex flex-col items-center md:items-end space-y-4">
-            <Image src="/tlogo.png" alt="Runtej Infra Logo" width={150} height={78} />
+            <Image src="/tlogo2.png" alt="Runtej Infra Logo" width={150} height={70} />
 
             <div className="flex space-x-4 text-2xl">
               <a href="#"><FaFacebookF /></a>

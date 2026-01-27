@@ -1,20 +1,22 @@
 "use client";
 
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { toast } from "sonner";
 
 export default function ContactPage() {
-    // 👈 new ref
+  // 👈 new ref
   const [loading, setLoading] = useState(false);
 
- 
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const form = e.currentTarget; // 👈 save form
     setLoading(true);
 
-    const data = Object.fromEntries(new FormData(e.currentTarget));
+    const data = Object.fromEntries(new FormData(form));
 
     const res = await fetch("/api/contact", {
       method: "POST",
@@ -25,14 +27,16 @@ export default function ContactPage() {
     setLoading(false);
 
     if (res.ok) {
+      form.reset(); // ✅ works
       toast.success("Thank you! We'll reply soon.");
     } else {
       toast.error("Error – please try again.");
     }
   };
 
+
   return (
-    <main  className="bg-gray-50 min-h-screen">
+    <main className="bg-gray-50 min-h-screen">
       {/* Hero */}
       <section className="relative w-full h-64 mb-12">
         <Image

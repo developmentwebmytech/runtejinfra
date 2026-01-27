@@ -13,33 +13,30 @@ export default function ThirdSection() {
   // const floatingImage = useRef(null);
 
   useEffect(() => {
-    gsap.from(imageRef.current, {
-      x: -80,
-      rotation: -15,
-      opacity: 0,
-      duration: 1.3,
-      ease: "elastic.out(1, 0.7)",
-      scrollTrigger: {
-        trigger: imageRef.current,
-        start: "top 85%",
-        toggleActions: "play none none none",
-      },
-    });
+  gsap.from(imageRef.current, {
+    y: 30,
+    opacity: 0,
+    duration: 0.4,
+    ease: "power2.out",
+    scrollTrigger: {
+      trigger: imageRef.current,
+      start: "top 95%",
+    },
+  });
 
-    gsap.from(contentRef.current, {
-      rotationY: 90,
-      scale: 0.6,
-      opacity: 0,
-      duration: 1.3,
-      ease: "back.out(1.5)",
-      transformOrigin: "right center",
-      scrollTrigger: {
-        trigger: contentRef.current,
-        start: "top 85%",
-        toggleActions: "play none none none",
-      },
-    });
-  }, []);
+  gsap.from(contentRef.current, {
+    y: 40,
+    scale: 0.9,
+    opacity: 0,
+    duration: 0.6,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: contentRef.current,
+      start: "top 90%",
+    },
+  });
+}, []);
+
 
   return (
     <div className="overflow-hidden relative bg-white">
