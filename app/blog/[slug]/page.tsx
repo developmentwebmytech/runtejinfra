@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params
 
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
+    const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000"
     const res = await fetch(`${baseUrl}/api/blogs/${slug}`, {
       cache: "no-store",
     })
@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 async function getBlogPost(slug: string) {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
+    const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000"
     const url = `${baseUrl}/api/blogs/${slug}`
 
 
@@ -217,7 +217,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
             )}
 
             {/* Share */}
-            <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+            {/* <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
               <div className="flex items-center flex-wrap gap-4">
                 <span className="font-medium flex items-center text-amber-900">
                   <Share2 className="h-4 w-4 mr-2" />
@@ -238,7 +238,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
                   </Button>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {/* Related Posts */}
             {relatedBlogs && relatedBlogs.length > 0 && (

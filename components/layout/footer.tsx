@@ -39,11 +39,14 @@ function Footer() {
       <div className="absolute inset-0 bg-green-100"></div>
 
       <div className="relative z-10 p-10">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-4">
 
           <div>
-            <ul className="space-y-3">
-          
+            <h2 className="mb-4 text-base md:text-lg font-semibold uppercase tracking-wide">
+              Important Links
+            </h2>
+
+            <ul className="space-y-3 ">
               <li><Link href="/">Home</Link></li>
               <li><Link href="/about">About Us</Link></li>
               <li><Link href="/media">Media</Link></li>
@@ -52,26 +55,29 @@ function Footer() {
             </ul>
           </div>
 
+
           <div>
+            <h1 className="mb-4 text-base md:text-lg font-semibold uppercase tracking-wide">PROJECTS</h1>
             <ul className="space-y-3">
-               {projectCategories.map((cat) => (
+              {projectCategories.map((cat) => (
                 <li key={cat._id}>
                   <Link href={`/category/${cat.slug}`}>
                     {cat.name}
                   </Link>
                 </li>
               ))}
-              
-              
-             
+
+
+
             </ul>
           </div>
 
           <div>
+            <h1 className="mb-4 text-base md:text-lg font-semibold uppercase tracking-wide ">USEFUL LINKS</h1>
             <ul className="space-y-3">
-              
+
               <li><Link href="/testimonials">Testimonials</Link></li>
-               <li><Link href="/termsandcondition">Terms & Conditions</Link></li>
+              <li><Link href="/termsandcondition">Terms & Conditions</Link></li>
 
               {/* {projectCategories.map((cat) => (
                 <li key={cat._id}>

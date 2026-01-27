@@ -63,7 +63,7 @@ export default function ProjectsByPropertyTypePage() {
             <Link
               key={project._id}
               href={`/project/${project.slug}`}
-              className="bg-white rounded shadow block"
+              className="group relative bg-white rounded shadow block"
             >
               <div className="relative h-64">
                 <Image
@@ -73,6 +73,11 @@ export default function ProjectsByPropertyTypePage() {
                   className="object-contain"
                 />
               </div>
+              {/* Hover Logo */}
+              <div className="absolute top-2 right-2 bg-white rounded opacity-0 group-hover:opacity-100 transition-opacity shadow p-1">
+                <Image src="/tlogo.png" alt="logo" width={26} height={26} />
+              </div>
+
               <div className="p-4">
                 <h3 className="font-semibold">{project.name}</h3>
               </div>

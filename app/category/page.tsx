@@ -107,6 +107,10 @@ export default function CategoriesPage() {
                       fill
                       className="object-cover"
                     />
+                    
+                    <div className="absolute top-2 right-2 bg-white rounded opacity-0 group-hover:opacity-100 transition-opacity shadow p-1">
+                      <Image src="/tlogo.png" alt="logo" width={28} height={28} />
+                    </div>
 
                     {/* Text overlay */}
                     <div className="absolute inset-0 flex flex-col justify-end p-5 pointer-events-none">

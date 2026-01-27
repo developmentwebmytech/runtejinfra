@@ -174,11 +174,14 @@ export default function CategoriesPage() {
               className="px-3 py-2 border border-gray-300 rounded-md text-sm"
             >
               <option value="">All Parent Categories</option>
-              {parentOptions.map((cat) => (
-                <option key={cat._id} value={cat._id}>
-                  {cat.name}
-                </option>
-              ))}
+              {parentOptions
+                .filter((cat) => cat.parentCategory === null)
+                .map((cat) => (
+                  <option key={cat._id} value={cat._id}>
+                    {cat.name}
+                  </option>
+                ))}
+
             </select>
           </div>
 
