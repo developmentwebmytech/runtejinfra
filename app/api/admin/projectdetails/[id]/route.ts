@@ -10,7 +10,7 @@ export async function GET(request: NextRequest, context: { params: Promise<{ id:
 
     const { id } = await context.params
 
-    const project = await Project.findById(id).populate("category")
+    const project = await Project.findById(id).populate("category").populate("propertyType").lean()
 
     if (!project) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 })
