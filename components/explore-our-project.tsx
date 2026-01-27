@@ -12,19 +12,19 @@ const cardData = [
     title: 'Commercial',
     subtitle: '100 PROPERTIES',
     image: '/category/commercial.jpg',
-    link: '/projectdetail',
+    link: '/category/commercial',
   },
   {
     title: 'Industrial',
     subtitle: '50 PROPERTIES',
     image: '/category/industrial.jpg',
-    link: '/projectdetail',
+    link: '/category/industrial',
   },
   {
     title: 'Residential',
     subtitle: '100 PROPERTIES',
     image: '/category/residential.jpg',
-    link: '/projectdetail',
+    link: '/category/residential',
   },
 ];
 

@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 @import "tw-animate-css";
 
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -116,5 +117,228 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+
+/* React Quill Content Styles - Proper rendering of rich text content */
+.quill-content {
+  line-height: 1.7;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.quill-content p {
+  margin-bottom: 1em;
+  line-height: 1.7;
+}
+
+.quill-content p:last-child {
+  margin-bottom: 0;
+}
+
+.quill-content h1 {
+  font-size: 2em;
+  font-weight: 700;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+.quill-content h2 {
+  font-size: 1.5em;
+  font-weight: 600;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+.quill-content h3 {
+  font-size: 1.25em;
+  font-weight: 600;
+  margin-top: 0.75em;
+  margin-bottom: 0.5em;
+  line-height: 1.4;
+}
+
+.quill-content h4,
+.quill-content h5,
+.quill-content h6 {
+  font-size: 1.1em;
+  font-weight: 600;
+  margin-top: 0.75em;
+  margin-bottom: 0.5em;
+}
+
+.quill-content ul,
+.quill-content ol {
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+  padding-left: 1.5em;
+}
+
+.quill-content ul {
+  list-style-type: disc;
+}
+
+.quill-content ol {
+  list-style-type: decimal;
+}
+
+.quill-content li {
+  margin-bottom: 0.5em;
+  line-height: 1.6;
+}
+
+.quill-content li:last-child {
+  margin-bottom: 0;
+}
+
+.quill-content blockquote {
+  border-left: 4px solid #e5e7eb;
+  padding-left: 1em;
+  margin: 1em 0;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.quill-content a {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.quill-content a:hover {
+  color: #1d4ed8;
+}
+
+.quill-content strong,
+.quill-content b {
+  font-weight: 700;
+}
+
+.quill-content em,
+.quill-content i {
+  font-style: italic;
+}
+
+.quill-content u {
+  text-decoration: underline;
+}
+
+.quill-content s,
+.quill-content strike {
+  text-decoration: line-through;
+}
+
+.quill-content pre {
+  background-color: #f3f4f6;
+  padding: 1em;
+  border-radius: 0.375rem;
+  overflow-x: auto;
+  margin: 1em 0;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+.quill-content code {
+  background-color: #f3f4f6;
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+.quill-content img {
+  max-width: 100%;
+  height: auto;
+  margin: 1em 0;
+  border-radius: 0.375rem;
+}
+
+.quill-content hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 1.5em 0;
+}
+
+.quill-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+}
+
+.quill-content th,
+.quill-content td {
+  border: 1px solid #e5e7eb;
+  padding: 0.5em 0.75em;
+  text-align: left;
+}
+
+.quill-content th {
+  background-color: #f9fafb;
+  font-weight: 600;
+}
+
+/* Quill specific classes */
+.quill-content .ql-align-center {
+  text-align: center;
+}
+
+.quill-content .ql-align-right {
+  text-align: right;
+}
+
+.quill-content .ql-align-justify {
+  text-align: justify;
+}
+
+.quill-content .ql-indent-1 {
+  padding-left: 3em;
+}
+
+.quill-content .ql-indent-2 {
+  padding-left: 6em;
+}
+
+.quill-content .ql-indent-3 {
+  padding-left: 9em;
+}
+
+/* Empty paragraph handling - preserve line breaks */
+.quill-content p br {
+  display: block;
+  content: "";
+  margin-top: 0.5em;
+}
+
+.quill-content p:empty {
+  min-height: 1.5em;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .quill-content {
+    font-size: 0.95rem;
+  }
+  
+  .quill-content h1 {
+    font-size: 1.75em;
+  }
+  
+  .quill-content h2 {
+    font-size: 1.35em;
+  }
+  
+  .quill-content h3 {
+    font-size: 1.15em;
+  }
+  
+  .quill-content ul,
+  .quill-content ol {
+    padding-left: 1.25em;
+  }
+  
+  .quill-content blockquote {
+    padding-left: 0.75em;
   }
 }

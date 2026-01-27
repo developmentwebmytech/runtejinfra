@@ -43,10 +43,10 @@ function SecondSection() {
 
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10 md:gap-y-14">
           {[
-            { src: '/second1.jpg', title: 'Runtej Infra Altamount | Altamount', href: '/projects/altamount' },
-            { src: '/second2.jpg', title: 'Runtej Infra World Towers | Worli', href: '/projects/world-towers' },
-            { src: '/second3.jpg', title: 'Trump Tower | Worli', href: '/projects/trump-tower' },
-            { src: '/second4.jpg', title: 'Runtej Infra Bellagio | Powai', href: '/projects/bellagio' },
+            { src: '/second1.jpg', title: 'Runtej Infra Altamount | Altamount', href: '/projectlist' },
+            { src: '/second2.jpg', title: 'Runtej Infra World Towers | Worli', href: '/projectlist' },
+            { src: '/second3.jpg', title: 'Trump Tower | Worli', href: '/projectslist' },
+            { src: '/second4.jpg', title: 'Runtej Infra Bellagio | Powai', href: '/projectlist' },
           ].map((item, index) => (
             <Link
               href={item.href}

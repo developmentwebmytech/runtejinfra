@@ -26,7 +26,7 @@ function VideoSection() {
         </p>
         <Link href="/categories">
           <button className="px-6 py-2 text-sm sm:text-base bg-green-600 cursor-pointer hover:bg-green-700 rounded">
-            Read More...
+            Read More
           </button>
         </Link>
       </div>

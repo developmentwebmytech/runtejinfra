@@ -46,6 +46,7 @@ export default function ProjectPage() {
         const res = await fetch(`/api/project/${slug}`, { cache: "no-store" })
         if (!res.ok) return setProject(null)
         const data = await res.json()
+      // console.log(data);
         setProject(data)
       } catch (error) {
         console.error("❌ Error loading project:", error)
@@ -69,13 +70,13 @@ export default function ProjectPage() {
       >
         <div className="absolute top-5 left-5 bg-black text-white text-xs px-3 py-1 rounded">PROJECT SHOWCASE</div>
 
-        <div className="absolute top-20 left-4 md:left-16 text-white text-sm flex gap-2 items-center">
+        <div className="absolute top-20 p-2 bg-black/50 rounded left-4 md:left-16 text-white text-sm flex gap-2 items-center">
           <span>Home</span> / <span>Projects</span> / <span className="font-semibold">{project.name}</span>
         </div>
 
         <div className="absolute bottom-10 left-4 md:left-16 text-white max-w-[90%]">
-          <h1 className="text-3xl font-bold">{project.name}</h1>
-          <p className="flex items-center gap-2 mt-2 text-sm md:text-base">
+          <h1 className="text-3xl font-bold bg-black/50 py-1 px-2 rounded">{project.name}</h1>
+          <p className="flex items-center gap-2 mt-2 text-sm md:text-base bg-black/50 p-2 rounded">
             <FaMapMarkerAlt />
             {project.address}
           </p>
@@ -158,52 +159,39 @@ function TabsSection({ project }: { project: Project }) {
       </div>
 
       <div className="px-4 md:px-16 mt-10 mb-20">
+
         {activeTab === "about" && (
           <div className="bg-white p-4 md:p-6 rounded shadow">
             <h2 className="text-xl md:text-2xl font-semibold mb-4">About</h2>
 
-            <div
-              className="text-gray-600 max-w-full break-words"
-              style={{
-                wordBreak: "break-word",
-                overflowWrap: "break-word",
-              }}
-            >
-              {project.about ? (
-                <div
-                  style={{ maxWidth: "100%" }}
-                  dangerouslySetInnerHTML={{ __html: project.about }}
-                />
-              ) : (
-                <p>{project.description}</p>
-              )}
-            </div>
+            {project.about ? (
+              <div
+                className="quill-content text-gray-700 "
+                dangerouslySetInnerHTML={{ __html: project.about }}
+              />
+
+            ) : (
+              <p className="text-gray-600">{project.description}</p>
+            )}
+
 
           </div>
         )}
+
 
 
         {activeTab === "features" && (
           <div className="bg-white p-4 md:p-6 rounded shadow">
             <h2 className="text-xl md:text-2xl font-semibold mb-4">Features</h2>
 
-            <div
-              className="text-gray-600 max-w-full break-words"
-              style={{
-                wordBreak: "break-word",
-                overflowWrap: "break-word",
-              }}
-            >
-              {project.feature ? (
-                <div
-                  style={{ maxWidth: "100%" }}
-                  dangerouslySetInnerHTML={{ __html: project.feature }}
-                />
-              ) : (
-                <p className="text-gray-400">No features listed</p>
-              )}
-            </div>
-
+            {project.feature ? (
+              <div
+                className="quill-content text-gray-700"
+                dangerouslySetInnerHTML={{ __html: project.feature }}
+              />
+            ) : (
+              <p className="text-gray-400">No features listed</p>
+            )}
           </div>
         )}
 
@@ -221,32 +209,32 @@ function TabsSection({ project }: { project: Project }) {
         )}
 
         {activeTab === "plans" && (
-  <div className="bg-white p-6 rounded shadow">
-    <h2 className="text-2xl font-semibold mb-8">Plans</h2>
+          <div className="bg-white p-6 rounded shadow">
+            <h2 className="text-2xl font-semibold mb-8">Plans</h2>
 
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-      {project.planImage?.map((img, idx) => (
-        <div key={idx} className="flex flex-col items-center">
-          
-          <div className="relative w-full h-64">
-            <Image
-              src={img.url || "/placeholder.svg"}
-              alt={img.altText || `Plan ${idx + 1}`}
-              fill
-              className="object-contain rounded"
-            />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {project.planImage?.map((img, idx) => (
+                <div key={idx} className="flex flex-col items-center">
+
+                  <div className="relative w-full h-64">
+                    <Image
+                      src={img.url || "/placeholder.svg"}
+                      alt={img.altText || `Plan ${idx + 1}`}
+                      fill
+                      className="object-contain rounded"
+                    />
+                  </div>
+
+                  {/* Plan name */}
+                  <p className="mt-2 text-sm text-gray-600 text-center">
+                    {img.altText || `Plan ${idx + 1}`}
+                  </p>
+
+                </div>
+              ))}
+            </div>
           </div>
-
-          {/* Plan name */}
-          <p className="mt-2 text-sm text-gray-600 text-center">
-            {img.altText || `Plan ${idx + 1}`}
-          </p>
-
-        </div>
-      ))}
-    </div>
-  </div>
-)}
+        )}
 
       </div>
     </>

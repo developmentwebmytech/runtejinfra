@@ -16,6 +16,7 @@ interface Category {
 
 interface ApiResponse {
   categories: Category[]
+  allcategories: Category[]
   total: number
   totalPages: number
   page: number
@@ -36,7 +37,7 @@ function CategoriesPage() {
         // console.log("All Categories:", res.data)
 
         // Filter top-level categories
-        const topLevelCategories = res.data.categories.filter(
+        const topLevelCategories = res.data.allcategories.filter(
           (category) => category.parentCategory === null
         )
         // console.log("Top Level Categories:", topLevelCategories)
@@ -84,7 +85,7 @@ function CategoriesPage() {
   return (
     <div>
       {/* Header Section */}
-      <div className="w-full mt-20 bg-[#bceb9757] py-8 px-4 sm:px-6 md:px-10">
+      <div className="w-full mt-5 bg-[#bceb9757] py-8 px-4 sm:px-6 md:px-10">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-2xl sm:text-3xl font-semibold">Property Categories</h2>
           <p className="text-sm text-gray-500 py-2">Home / Categories</p>
@@ -125,8 +126,8 @@ function CategoriesPage() {
                       className="object-cover rounded-md"
                     />
 
-                    <div className="absolute inset-0 bg-opacity-40 flex flex-col justify-end p-5 text-white">
-                      <h3 className="text-lg sm:text-xl font-semibold mb-1">{category.name}</h3>
+                    <div className="absolute inset-0  flex flex-col justify-end p-5 text-white pointer-events-none">
+                      <h3 className="text-lg bg-black/60 inline-block rounded px-3 w-fit py-1 sm:text-xl font-semibold mb-1">{category.name}</h3>
                      
                     </div>
                   </div>

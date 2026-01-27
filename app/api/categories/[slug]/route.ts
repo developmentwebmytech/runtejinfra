@@ -9,7 +9,7 @@ export async function GET(
   try {
     await connectDB();
 
-    const category = await Category.findOne({ slug: params.slug })
+    const category = await Category.findOne({ slug: params?.slug })
       .populate("parentCategory");
 
     if (!category) {

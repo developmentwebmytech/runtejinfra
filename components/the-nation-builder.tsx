@@ -37,7 +37,7 @@ export default function FirstSection() {
 
   return (
     <div className="bg-white relative">
-      <div className="container mx-auto px-4 py-16 sm:py-20">
+      <div className="container mx-auto px-2 py-16 sm:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-30 items-center">
           {/* Left Image */}
           <div
@@ -70,7 +70,7 @@ export default function FirstSection() {
 
             <Link href="/projectlist">
             <button className="bg-green-600 hover:bg-green-700 text-white text-sm px-6 py-2 rounded transition">
-              Read More...
+              Read More
             </button>
             </Link>
           </div>

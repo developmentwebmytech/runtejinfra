@@ -90,22 +90,25 @@ function OurBrand() {
           {firms.map((firm) => (
             <SwiperSlide key={firm._id}>
               <div className="transition duration-300 hover:scale-105">
-                <Image
-                  src={firm.image}
-                  alt={firm.name}
-                  width={170}
-                  height={74}
-                  className="object-contain mx-auto"
-                />
+                <div className="w-[170px] h-[80px] flex items-center justify-center mx-auto">
+                  <Image
+                    src={firm.image}
+                    alt={firm.name}
+                    width={170}
+                    height={74}
+                    className="object-contain"
+                  />
+                </div>
 
                 {/* ✅ Firm name */}
-                <p className="mt-3 text-sm font-medium text-gray-700">
+                <p className="mt-5 py-2 text-sm font-medium text-gray-700">
                   {firm.name}
                 </p>
               </div>
             </SwiperSlide>
           ))}
         </Swiper>
+
       </div>
     </div>
   );

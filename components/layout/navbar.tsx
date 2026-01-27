@@ -8,6 +8,7 @@ interface Category {
   _id: string;
   name: string;
   parentCategory?: string | null; // 👈 add this line
+  slug: string;
 }
 
 export default function Navbar() {
@@ -52,7 +53,7 @@ export default function Navbar() {
       hasDropdown: true,
       dropdown: projectCategories.map((cat) => ({
         label: cat.name,
-        href: `/categories/${cat._id}`,
+        href: `/category/${cat.slug}`,
       })),
     },
     {
@@ -69,100 +70,151 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="container">
-        <nav className={`flex items-center px-16 py-3 text-black ${navbarClasses}`}>
-          {/* Logo - left */}
-          <Link href="/" className="flex-shrink-0">
-            <div className="w-32 relative h-15 cursor-pointer">
-              <Image src="/tlogo.png" alt="Logo" fill style={{ objectFit: "contain" }} priority />
-            </div>
-          </Link>
-
-          {/* Center menu */}
-          <div className="hidden md:flex flex-1 justify-center items-center space-x-10 text-md font-semibold">
-            {menuItems.map((item, idx) => (
-              <div key={idx} className="relative group">
-
-                {/* Menu item */}
-                <div className="flex items-center space-x-1 hover:text-green-500 cursor-pointer">
-                  <Link href={item.href}>{item.label}</Link>
-                  {item.hasDropdown && (
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  )}
-                </div>
-
-                {/* ✅ PLACE DROPDOWN HERE */}
-                {item.hasDropdown && item.dropdown && (
-       <div className="absolute top-[100%] left-1/2 -translate-x-1/2 mt-7 bg-white shadow-lg z-50 w-64 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-
-                    {item.dropdown.map((drop, dropIdx) => (
-                      <Link
-                        key={drop.href + dropIdx}
-                        href={drop.href}
-                        className="block px-4 py-4 hover:bg-gray-100 text-sm text-gray-800"
-                      >
-                        {drop.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-
+      <div className="border-b border-gray-200 ">
+        <div className="container ">
+          <nav className={`flex items-center px-6  py-3 text-black ${navbarClasses}`}>
+            {/* Logo - left */}
+            <Link href="/" className="flex-shrink-0">
+              <div className="w-32 relative h-15 cursor-pointer">
+                <Image src="/tlogo.png" alt="Logo" fill style={{ objectFit: "contain" }} priority />
               </div>
-            ))}
+            </Link>
 
-          </div>
+{/* Center menu - visible only on lg and above */}
+            <div className="hidden lg:flex flex-1 justify-center items-center space-x-10 text-md font-semibold">
+              {menuItems.map((item, idx) => (
+                <div key={idx} className="relative group">
 
-          {/* Mobile toggle - right */}
-          <div
-            onClick={() => setIsOpen(true)}
-            className="text-black text-2xl ml-auto font-bold cursor-pointer md:hidden"
-          >
-            &#9776;
-          </div>
-        </nav>
-
-
-        {/* Mobile Dropdown */}
-        {isOpen && (
-          <div className="fixed inset-0 z-50 bg-black/80 text-white p-6 overflow-y-auto">
-            <div className="flex justify-end">
-              <button onClick={() => setIsOpen(false)} className="text-3xl">&times;</button>
-            </div>
-
-            <div className="mt-6 space-y-4 text-lg text-left flex flex-col items-start">
-              {menuItems.map((item, idx) => {
-                const isDropdownOpen = openDropdownIndex === idx;
-                return (
-                  <div key={item.label + idx} className="w-full">
-                    <button
-                      className="flex justify-between items-center w-full hover:text-green-400"
-                      onClick={() => setOpenDropdownIndex(isDropdownOpen ? null : idx)}
-                    >
-                      {item.label}
-                      {item.hasDropdown && (
-                        <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                        </svg>
-                      )}
-                    </button>
-
-                    {item.hasDropdown && item.dropdown && isDropdownOpen && (
-                      <div className="ml-4 mt-2 space-y-2 text-base">
-                        {item.dropdown.map((drop, dropIdx) => (
-                          <Link key={drop.href + dropIdx} href={drop.href} className="block hover:text-green-400">
-                            {drop.label}
-                          </Link>
-                        ))}
-                      </div>
+                  {/* Menu item */}
+                  <div className="flex items-center space-x-1 hover:text-green-500 cursor-pointer">
+                    <Link href={item.href}>{item.label}</Link>
+                    {item.hasDropdown && (
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                      </svg>
                     )}
                   </div>
-                );
-              })}
+
+                  {/* ✅ PLACE DROPDOWN HERE */}
+                  {item.hasDropdown && item.dropdown && (
+                    <div className="absolute top-[100%] left-1/2 -translate-x-1/2 mt-7 bg-white shadow-lg z-50 w-64 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+
+                      {item.dropdown.map((drop, dropIdx) => (
+                        <Link
+                          key={drop.href + dropIdx}
+                          href={drop.href}
+                          className="block px-4 py-4 hover:bg-gray-100 text-sm text-gray-800"
+                        >
+                          {drop.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+
+                </div>
+              ))}
+
             </div>
-          </div>
-        )}
+
+{/* Mobile/Tablet toggle - right */}
+            <button
+              type="button"
+              onClick={() => setIsOpen(true)}
+              className="text-black ml-auto cursor-pointer lg:hidden w-10 h-10 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors"
+              aria-label="Open menu"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </nav>
+
+
+{/* Mobile Dropdown */}
+          {isOpen && (
+            <div className="fixed inset-0 z-50 bg-white md:bg-black/80 text-black md:text-white overflow-y-auto">
+              {/* Mobile Header */}
+              <div className="flex items-center justify-between p-4 border-b border-gray-200 md:border-none">
+                <Link href="/" onClick={() => setIsOpen(false)} className="flex-shrink-0">
+                  <div className="w-28 relative h-12 cursor-pointer">
+                    <Image src="/tlogo.png" alt="Logo" fill style={{ objectFit: "contain" }} priority />
+                  </div>
+                </Link>
+                <button 
+                  onClick={() => setIsOpen(false)} 
+                  className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 md:bg-white/10 hover:bg-gray-200 md:hover:bg-white/20 transition-colors"
+                  aria-label="Close menu"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Mobile Menu Items */}
+              <div className="p-6 space-y-1">
+                {menuItems.map((item, idx) => {
+                  const isDropdownOpen = openDropdownIndex === idx;
+
+                  return (
+                    <div key={item.label + idx} className="w-full border-b border-gray-100 md:border-white/10 last:border-b-0">
+
+                      {/* ✅ NO dropdown → direct link */}
+                      {!item.hasDropdown ? (
+                        <Link
+                          href={item.href}
+                          className="block w-full py-4 text-base font-medium hover:text-green-500 cursor-pointer transition-colors cursor-pointer"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          {item.label}
+                        </Link>
+                      ) : (
+                        <>
+                          {/* ✅ Dropdown button */}
+                          <button
+                            type="button"
+                            className="flex justify-between items-center w-full py-4 text-base font-medium hover:text-green-500 transition-colors"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setOpenDropdownIndex(isDropdownOpen ? null : idx);
+                            }}
+                          >
+                            {item.label}
+                            <svg 
+                              className={`w-5 h-5 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} 
+                              fill="none" 
+                              stroke="currentColor" 
+                              strokeWidth="2" 
+                              viewBox="0 0 24 24"
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                            </svg>
+                          </button>
+
+                          {/* Dropdown links */}
+                          {isDropdownOpen && (
+                            <div className="pb-4 space-y-1 bg-gray-50 md:bg-white/5 rounded-lg mb-2">
+                              {item.dropdown.map((drop, i) => (
+                                <Link
+                                  key={drop.href + i}
+                                  href={drop.href}
+                                  className="block px-4 py-3 text-sm text-gray-600 md:text-gray-300 hover:text-green-500 hover:bg-gray-100 md:hover:bg-white/10 transition-colors cursor-pointer"
+                                  onClick={() => setIsOpen(false)}
+                                >
+                                  {drop.label}
+                                </Link>
+                              ))}
+                            </div>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </>
   );

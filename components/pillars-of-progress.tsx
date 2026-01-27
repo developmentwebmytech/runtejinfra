@@ -78,7 +78,7 @@ export default function ThirdSection() {
             </p>
 
             <Link href="/projectlist" className="border rounded px-6 py-2 text-sm text-white bg-green-600 hover:bg-green-700 transition cursor-pointer">
-              Read More...
+              Read More
             </Link>
           </div>
         </div>

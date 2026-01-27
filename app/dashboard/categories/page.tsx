@@ -213,7 +213,7 @@ export default function CategoriesPage() {
                     )}
                   </TableCell>
                   <TableCell className="font-medium">{category.name}</TableCell>
-                  <TableCell>{category.description}</TableCell>
+                  <TableCell>{category.description.length > 90 ? category.description.slice(0, 90) + "..." : category.description}</TableCell>
                   <TableCell>
                     {category.parentCategory ? (
                       <Badge variant="outline">{category.parentCategory.name}</Badge>

@@ -39,7 +39,7 @@ export default function ProjectsByPropertyTypePage() {
         const data = await res.json()
 
         const filtered = data.filter((p: any) => p.propertyType?.toString() === id)
-        console.log('Filtered Projects:', filtered)
+        // console.log('Filtered Projects:', filtered)
         setProjects(filtered)
       } catch (err) {
         setError('Something went wrong while fetching projects.')

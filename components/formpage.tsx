@@ -72,8 +72,9 @@ function FormPage() {
                   className="border rounded-md px-4 py-2 w-full"
                 >
                   <option value="">Select</option>
-                  <option>Mr</option>
-                  <option>Ms</option>
+                  <option>Mr.</option>
+                  <option>Ms.</option>
+                   <option>Other</option>
                 </select>
 
                 <input

@@ -12,7 +12,7 @@ export async function GET(
     const { slug } = await context.params
     // console.log("Fetching project with slug:", slug)
 
-    const project = await Project.findOne({ slug }).populate("category")
+    const project = await Project.findOne({ slug }).populate("category").populate("propertyType").lean()
 
     if (!project) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 })

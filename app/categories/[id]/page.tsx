@@ -88,7 +88,7 @@ function CategoriesPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-10">
+    <div className="container mx-auto  py-5">
       {parentCategory && (
         <div className="bg-green-100 px-6 py-6 rounded-md mb-10">
           <h1 className="text-3xl font-semibold mb-2">{parentCategory.name}</h1>
@@ -127,10 +127,11 @@ function CategoriesPage() {
                     <Image src="/tlogo.png" alt="logo" width={28} height={28} />
                   </div>
 
-                  <div className="absolute inset-0 bg-opacity-40 flex flex-col justify-end p-5 text-black">
-                    <h3 className="text-lg sm:text-xl font-semibold mb-1">{category.name}</h3>
-                    <p className="text-xs sm:text-sm">{projectCounts[category._id] ?? "Loading..."} Projects</p>
+                  <div className="absolute inset-0 bg-opacity-40 flex flex-col justify-end p-5 text-white pointer-events-none">
+                    <h3 className=" bg-black/60 inline-block px-2 py-1  rounded w-fit text-lg sm:text-xl font-semibold mb-1">{category.name}</h3>
+                    <p className=" bg-black/60 inline-block px-2  rounded w-fit text-xs sm:text-sm">{projectCounts[category._id] ?? "Loading..."} Projects</p>
                   </div>
+                  
                 </div>
               </Link>
             )

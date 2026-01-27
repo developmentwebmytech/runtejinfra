@@ -69,8 +69,8 @@ export default function CreateProduct() {
     try {
       const res = await fetch("/api/admin/categories")
       const data = await res.json()
-      const mainCats = data.categories.filter((cat: Category) => !cat.parentCategory)
-      const allSubCats = data.categories.filter((cat: Category) => cat.parentCategory)
+      const mainCats = data.allcategories.filter((cat: Category) => !cat.parentCategory)
+      const allSubCats = data.allcategories.filter((cat: Category) => cat.parentCategory)
       setCategories(mainCats)
       setAllPropertyTypes(
         allSubCats.map((cat: Category) => ({
