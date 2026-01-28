@@ -34,7 +34,7 @@ interface BlogData {
 }
 
 export default function BlogEditPage({ params }: { params: { id: string } }) {
-  
+
   // const [id, setId] = useState<string>("")
   // useEffect(() => {
   //   const fetchId = async () => {
@@ -46,7 +46,7 @@ export default function BlogEditPage({ params }: { params: { id: string } }) {
   const id = params.id;
 
   const router = useRouter()
-  
+
   const { data: session, status } = useSession()
   const { toast } = useToast()
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -86,7 +86,7 @@ export default function BlogEditPage({ params }: { params: { id: string } }) {
       }
 
       const blog = await response.json()
-      console.log("fetched blog:",blog)
+      console.log("fetched blog:", blog)
       setBlogData({
         ...blog,
         is_published: blog.is_published || false,
@@ -112,7 +112,7 @@ export default function BlogEditPage({ params }: { params: { id: string } }) {
   useEffect(() => {
     if (status === "authenticated") {
       // Only fetch blog if we're editing an existing blog (not creating a new one)
-      
+
       if (!isNew) {
         fetchBlog()
         // console.log("hello")
@@ -148,7 +148,7 @@ export default function BlogEditPage({ params }: { params: { id: string } }) {
     } catch (error) {
       console.error("Error fetching categories and tags:", error)
     }
-  },[])
+  }, [])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -513,9 +513,11 @@ export default function BlogEditPage({ params }: { params: { id: string } }) {
 
             {/* Categories and Tags */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* ================= CATEGORIES ================= */}
               <Card>
                 <CardContent className="p-4 space-y-4">
                   <h3 className="font-medium">Categories</h3>
+
                   <div className="flex gap-2">
                     <Input
                       value={newCategory}
@@ -530,52 +532,56 @@ export default function BlogEditPage({ params }: { params: { id: string } }) {
                     />
                     <Button type="button" variant="outline" size="icon" onClick={handleAddCategory}>
                       <Plus className="h-4 w-4" />
-                      <span className="sr-only">Add category</span>
                     </Button>
                   </div>
-                  <div className="space-y-2">
-                    {blogData.categories?.length > 0 ? (
-                      <div className="flex flex-wrap gap-2">
-                        {blogData.categories.map((category) => (
-                          <Badge key={category} variant="secondary" className="flex items-center gap-1">
-                            {category}
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="icon"
-                              className="h-4 w-4 rounded-full"
-                              onClick={() => handleRemoveCategory(category)}
-                            >
-                              <X className="h-3 w-3" />
-                              <span className="sr-only">Remove {category}</span>
-                            </Button>
-                          </Badge>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="text-sm text-gray-500">No categories added</p>
-                    )}
-                  </div>
+
+                  {blogData.categories?.length > 0 ? (
+                    <div className="flex flex-wrap gap-2">
+                      {blogData.categories.map((category) => (
+                        <Badge
+                          key={category}
+                          variant="secondary"
+                          className="flex items-center gap-1 max-w-[180px]"
+                          title={category}
+                        >
+                          <span className="truncate">{category}</span>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            className="h-4 w-4 rounded-full"
+                            onClick={() => handleRemoveCategory(category)}
+                          >
+                            <X className="h-3 w-3" />
+                          </Button>
+                        </Badge>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-gray-500">No categories added</p>
+                  )}
+
                   {existingCategories.length > 0 && (
                     <div>
                       <p className="text-sm text-gray-500 mb-2">Existing categories:</p>
                       <div className="flex flex-wrap gap-2">
                         {existingCategories
-                          .filter((category) => !blogData.categories.includes(category))
+                          .filter((c) => !blogData.categories.includes(c))
                           .slice(0, 10)
                           .map((category) => (
                             <Badge
                               key={category}
                               variant="outline"
-                              className="cursor-pointer hover:bg-gray-100"
-                              onClick={() => {
+                              className="cursor-pointer hover:bg-gray-100 max-w-[180px]"
+                              title={category}
+                              onClick={() =>
                                 setBlogData((prev) => ({
                                   ...prev,
                                   categories: [...prev.categories, category],
                                 }))
-                              }}
+                              }
                             >
-                              {category}
+                              <span className="truncate">{category}</span>
                             </Badge>
                           ))}
                       </div>
@@ -583,9 +589,12 @@ export default function BlogEditPage({ params }: { params: { id: string } }) {
                   )}
                 </CardContent>
               </Card>
+
+              {/* ================= TAGS ================= */}
               <Card>
                 <CardContent className="p-4 space-y-4">
                   <h3 className="font-medium">Tags</h3>
+
                   <div className="flex gap-2">
                     <Input
                       value={newTag}
@@ -600,52 +609,56 @@ export default function BlogEditPage({ params }: { params: { id: string } }) {
                     />
                     <Button type="button" variant="outline" size="icon" onClick={handleAddTag}>
                       <Plus className="h-4 w-4" />
-                      <span className="sr-only">Add tag</span>
                     </Button>
                   </div>
-                  <div className="space-y-2">
-                    {blogData.tags?.length > 0 ? (
-                      <div className="flex flex-wrap gap-2">
-                        {blogData.tags.map((tag) => (
-                          <Badge key={tag} variant="secondary" className="flex items-center gap-1">
-                            {tag}
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="icon"
-                              className="h-4 w-4 rounded-full"
-                              onClick={() => handleRemoveTag(tag)}
-                            >
-                              <X className="h-3 w-3" />
-                              <span className="sr-only">Remove {tag}</span>
-                            </Button>
-                          </Badge>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="text-sm text-gray-500">No tags added</p>
-                    )}
-                  </div>
+
+                  {blogData.tags?.length > 0 ? (
+                    <div className="flex flex-wrap gap-2">
+                      {blogData.tags.map((tag) => (
+                        <Badge
+                          key={tag}
+                          variant="secondary"
+                          className="flex items-center gap-1 max-w-[180px]"
+                          title={tag}
+                        >
+                          <span className="truncate">{tag}</span>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            className="h-4 w-4 rounded-full"
+                            onClick={() => handleRemoveTag(tag)}
+                          >
+                            <X className="h-3 w-3" />
+                          </Button>
+                        </Badge>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-gray-500">No tags added</p>
+                  )}
+
                   {existingTags.length > 0 && (
                     <div>
                       <p className="text-sm text-gray-500 mb-2">Existing tags:</p>
                       <div className="flex flex-wrap gap-2">
                         {existingTags
-                          .filter((tag) => !blogData.tags.includes(tag))
+                          .filter((t) => !blogData.tags.includes(t))
                           .slice(0, 10)
                           .map((tag) => (
                             <Badge
                               key={tag}
                               variant="outline"
-                              className="cursor-pointer hover:bg-gray-100"
-                              onClick={() => {
+                              className="cursor-pointer hover:bg-gray-100 max-w-[180px]"
+                              title={tag}
+                              onClick={() =>
                                 setBlogData((prev) => ({
                                   ...prev,
                                   tags: [...prev.tags, tag],
                                 }))
-                              }}
+                              }
                             >
-                              {tag}
+                              <span className="truncate">{tag}</span>
                             </Badge>
                           ))}
                       </div>
@@ -654,6 +667,7 @@ export default function BlogEditPage({ params }: { params: { id: string } }) {
                 </CardContent>
               </Card>
             </div>
+
 
             {/* Publishing Options */}
             <Card>
