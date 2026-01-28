@@ -70,9 +70,10 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="border-b border-gray-200 ">
-        <div className="container ">
-          <nav className={`flex items-center px-6  py-2 text-black ${navbarClasses}`}>
+      <div className="w-full border-b border-gray-200 ">
+ 
+          <nav className={`w-full ${navbarClasses}`}>
+                   <div className="container mx-auto flex items-center px-1  py-2 text-black ">
             {/* Logo - left */}
             <Link href="/" className="flex-shrink-0">
               <div className="w-34 relative h-17 cursor-pointer">
@@ -127,17 +128,20 @@ export default function Navbar() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
+
+            </div>
           </nav>
 
 
           {/* Mobile Dropdown */}
+          <div className="container mx-auto">
           {isOpen && (
             <div className="fixed inset-0 z-50 bg-white md:bg-black/80 text-black md:text-white overflow-y-auto">
               {/* Mobile Header */}
               <div className="flex items-center justify-between p-4 border-b border-gray-200 md:border-none">
                 <Link href="/" onClick={() => setIsOpen(false)} className="flex-shrink-0">
                   <div className="w-28 relative h-12 cursor-pointer">
-                    <Image src="/tlogo2.png" alt="Logo" fill style={{ objectFit: "contain" }} priority />
+                    <Image src="/tlogo.png" alt="Logo" fill style={{ objectFit: "contain" }} priority />
                   </div>
                 </Link>
                 <button

@@ -43,7 +43,7 @@ export default function ProjectsByPropertyTypePage() {
 
   return (
     <>
-      <div className="w-full mt-5 bg-[#bceb9757] py-8 px-4">
+      <div className="w-full  bg-[#bceb9757] py-8 px-4">
         <div className="container mx-auto">
           <h2 className="text-3xl font-semibold">
             Our Services – {category?.name}

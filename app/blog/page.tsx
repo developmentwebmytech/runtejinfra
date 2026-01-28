@@ -47,7 +47,7 @@ export default function BlogsPage() {
   if (blogs.length === 0) return <p className="text-center py-10">No blogs found.</p>
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-10 bg-gray-50">
       {/* Header */}
       <div className="container mx-auto px-4 text-center mb-12">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
