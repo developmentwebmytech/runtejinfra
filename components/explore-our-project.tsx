@@ -9,6 +9,8 @@ import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import { Loader2 } from 'lucide-react';
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -87,16 +89,22 @@ function Fifth() {
     );
   }
 
-  if (loading) {
-    return (
-      <div className="container mx-auto my-16 px-2">
-        <h2 className="text-3xl md:text-4xl font-semibold text-center leading-snug mb-10">
-          EXPLORE OUR PROJECT
-        </h2>
-        <div className="text-center">Loading categories...</div>
+if (loading) {
+  return (
+    <div className="container mx-auto my-16 px-2">
+      <h2 className="text-3xl md:text-4xl font-semibold text-center mb-10">
+        EXPLORE OUR PROJECT
+      </h2>
+
+      <div className="flex flex-col items-center gap-3">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+        <p className="text-sm text-gray-500">Loading categories...</p>
       </div>
-    );
-  }
+    </div>
+  );
+}
+
+
 
   return (
     <div className="container mx-auto my-16 px-2">
