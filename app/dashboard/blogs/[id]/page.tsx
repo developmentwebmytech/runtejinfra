@@ -43,7 +43,7 @@ export default function BlogEditPage({ params }: { params: { id: string } }) {
   //   }
   //   fetchId()
   // }, [params])
-  const id = params.id;
+  const id = params?.id;
 
   const router = useRouter()
 
