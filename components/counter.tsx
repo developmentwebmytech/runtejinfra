@@ -99,7 +99,7 @@ export default function Counter() {
 
   return (
     <section className="bg-gray-100">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-2 py-12">
         <h2 className="text-4xl mb-4 text-center font-semibold">WE HAVE REACHED HERE</h2>
         <p className="text-center text-gray-600 text-base md:text-lg mb-6">
           With years of dedication and trust, we have achieved great milestones. Here’s a quick look at what we have built together.

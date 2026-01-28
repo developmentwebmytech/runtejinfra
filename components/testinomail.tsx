@@ -50,7 +50,7 @@ useEffect(() => {
 
   /* render grid */
   return (
-    <div className="container mx-auto px-4 my-16">
+    <div className="container mx-auto px-2 my-16">
       <h2 className="text-4xl font-semibold text-center mb-8">
         TESTIMONIALS ‑ CLIENT REVIEWS
       </h2>

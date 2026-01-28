@@ -68,7 +68,7 @@ function OurBrand() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-12 sm:py-15">
+    <div className="container mx-auto px-2 py-12 sm:py-15">
       <div className="text-center">
         <button className="text-black text-4xl font-semibold px-4 mb-12">
           OUR FIRMS

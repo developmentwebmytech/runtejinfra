@@ -54,7 +54,7 @@ function Fifth() {
 
   return (
 
-    <div className=" container mx-auto my-16 px-4">
+    <div className=" container mx-auto my-16 px-2">
       <h2 className="text-3xl md:text-4xl font-semibold text-center leading-snug mb-10">EXPLORE OUR PROJECT</h2>
 
       <div ref={containerRef} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">

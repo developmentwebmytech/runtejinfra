@@ -73,7 +73,7 @@ export default function MediaGalleryPage() {
 
   return (
     <main className="min-h-screen bg-background">
-      <div className="container mx-auto py-4 ">
+      <div className="container mx-auto px-2 py-4">
         <div className="mb-12">
           <h1 className="text-4xl font-bold mb-2">Media Gallery</h1>
           <p className="text-muted-foreground">Browse our collection of images</p>

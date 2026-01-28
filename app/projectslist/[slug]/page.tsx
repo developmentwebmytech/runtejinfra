@@ -44,7 +44,7 @@ export default function ProjectsByPropertyTypePage() {
   return (
     <>
       <div className="w-full  bg-[#bceb9757] py-8 px-4">
-        <div className="container mx-auto">
+        <div className="container mx-auto px-2">
           <h2 className="text-3xl font-semibold">
             Our Services – {category?.name}
           </h2>
@@ -57,7 +57,7 @@ export default function ProjectsByPropertyTypePage() {
         </div>
       </div>
 
-      <main className="container mx-auto mt-12 px-4 py-10">
+      <main className="container mx-auto  px-2 py-5">
         <div className="grid gap-6 md:grid-cols-3 xl:grid-cols-4">
           {projects.map((project) => (
             <Link

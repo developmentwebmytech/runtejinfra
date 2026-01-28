@@ -38,7 +38,7 @@ function ProjectList() {
   return (
     <>
       <div className="w-full  bg-[#bceb9757] py-8 px-4 sm:px-6 md:px-10">
-        <div className="container mx-auto">
+        <div className="container mx-auto px-2">
           <h2 className="text-3xl font-semibold">
             Our services – Industrial Construction & Development
           </h2>
@@ -49,7 +49,7 @@ function ProjectList() {
         </div>
       </div>
 
-      <main className="container mx-auto mt-12 min-h-screen px-4 sm:px-6 lg:px-8 py-10">
+      <main className="container py-5 mx-auto min-h-screen px-2 ">
         {loading ? (
           <p>Loading projects...</p>
         ) : error ? (

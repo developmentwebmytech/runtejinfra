@@ -40,7 +40,7 @@ export default function ThirdSection() {
 
   return (
     <div className="overflow-hidden relative bg-white">
-      <div className="container mx-auto px-4 my-16 sm:my-20">
+      <div className="container mx-auto px-2 my-16 sm:my-20">
         {/* 👆 px and my responsive padding added */}
 
         {/* Left + Right layout */}

@@ -82,7 +82,7 @@ export default function MediaDetailPage() {
 
   return (
     <main className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-2 py-12">
         <Link href="/media" className="inline-block mb-6">
           <Button variant="outline">← Back to Gallery</Button>
         </Link>

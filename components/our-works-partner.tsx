@@ -43,7 +43,7 @@ export default function OurWorkPartner() {
   }
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto px-2">
       <div className="bg-white py-12">
         <h2 className="text-3xl md:text-4xl font-semibold text-center leading-snug mb-10">MAJOR PROJECT PARTNER</h2>
 

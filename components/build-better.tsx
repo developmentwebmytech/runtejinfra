@@ -34,7 +34,7 @@ function Fourth() {
 
     return (
         <div className="bg-white py-8 overflow-x-hidden">
-            <div className="container px-4 mx-auto">
+            <div className="container px-2 mx-auto">
                 <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-6 min-h-screen text-black overflow-hidden">
 
                     {/* Left Text Section */}
