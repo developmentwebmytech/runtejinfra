@@ -14,6 +14,8 @@ interface Category {
 
 function Footer() {
   const [projectCategories, setProjectCategories] = useState<Category[]>([]);
+  const [socialLinks, setSocialLinks] = useState<any>(null);
+
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -33,6 +35,18 @@ function Footer() {
 
     fetchCategories();
   }, []);
+
+  useEffect(() => {
+    const fetchSocialLinks = async () => {
+      const res = await fetch("/api/contactpost");
+      const data = await res.json();
+      console.log("Social Links Data:", data);
+      setSocialLinks(data);
+    };
+
+    fetchSocialLinks();
+  }, []);
+
 
   return (
     <footer className="relative text-black min-h-[300px] bg-cover bg-center">
@@ -96,12 +110,25 @@ function Footer() {
             <Image src="/tlogo2.png" alt="Runtej Infra Logo" width={150} height={70} />
 
             <div className="flex space-x-4 text-2xl">
-              <a href="#"><FaFacebookF /></a>
-              <a href="#"><FaXTwitter /></a>
-              <a href="#"><FaInstagram /></a>
-              <a href="#"><FaLinkedinIn /></a>
-              <a href="#"><FaYoutube /></a>
+              <a href={socialLinks?.facebook} target="_blank" rel="noopener noreferrer">
+                <FaFacebookF />
+              </a>
+
+              <a href={socialLinks?.twitter} target="_blank" rel="noopener noreferrer">
+                <FaXTwitter />
+              </a>
+
+              <a href={socialLinks?.instagram} target="_blank" rel="noopener noreferrer">
+                <FaInstagram />
+              </a>
+
+              <a href={socialLinks?.linkedin} target="_blank" rel="noopener noreferrer">
+                <FaLinkedinIn />
+              </a>
             </div>
+
+
+
           </div>
 
         </div>

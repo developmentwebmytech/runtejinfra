@@ -44,21 +44,32 @@ export default function ContactPostAdmin() {
   }
 
   /* one small helper */
-  const Field = (
-    name: keyof PostData,
-    label: string,
-    type: React.HTMLInputTypeAttribute = "text",
-  ) => (
-    <label className="block">
-      <span className="block text-sm font-medium text-gray-700 mb-1">{label}</span>
-      <input
-        type={type}
-        value={data[name] as string}
-        onChange={e => setData({ ...data, [name]: e.target.value })}
-        className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
-      />
-    </label>
-  )
+const Field = (
+  name: keyof PostData,
+  label: string,
+  type: string = "text",
+  maxLength?: number
+) => (
+  <label className="block">
+    <span className="text-sm font-medium">{label}</span>
+    <input
+      type={type}
+      inputMode={type === "tel" ? "numeric" : undefined}
+      maxLength={maxLength}
+      minLength={maxLength}
+      pattern={type === "tel" ? "[0-9]*" : undefined}
+      value={data[name] as string}
+      onChange={e =>
+        setData({
+          ...data,
+          [name]: e.target.value,
+        })
+      }
+      className="w-full rounded-lg border px-3 py-2 text-sm"
+    />
+  </label>
+)
+
 
   return (
     <form
@@ -70,11 +81,11 @@ export default function ContactPostAdmin() {
     >
       <h2 className="text-xl font-semibold text-center mb-4">Contact Settings</h2>
 
-      {Field("phone", "Phone", "tel")}
-      {Field("mapUrl", "Google Maps URL", "url")}
+      {Field("phone", "Phone", "tel", 10)}
+      {Field("mapUrl", "Google Maps URL", "url")}
       {Field("instagram", "Instagram", "url")}
       {Field("twitter", "Twitter / X", "url")}
-      {Field("whatsapp", "WhatsApp", "url")}
+      {Field("whatsapp", "WhatsApp", "tel", 10)}
       {Field("facebook", "Facebook", "url")}
       {Field("linkedin", "LinkedIn", "url")}
 
