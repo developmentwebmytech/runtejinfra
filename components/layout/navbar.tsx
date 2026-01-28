@@ -72,7 +72,7 @@ export default function Navbar() {
     <>
       <div className="border-b border-gray-200 ">
         <div className="container ">
-          <nav className={`flex items-center px-6  py-3 text-black ${navbarClasses}`}>
+          <nav className={`flex items-center px-6  py-2 text-black ${navbarClasses}`}>
             {/* Logo - left */}
             <Link href="/" className="flex-shrink-0">
               <div className="w-34 relative h-17 cursor-pointer">

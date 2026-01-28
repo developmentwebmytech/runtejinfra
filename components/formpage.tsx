@@ -22,34 +22,42 @@ function FormPage() {
   }
 
   // submit
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    try {
-      const res = await fetch("/api/quotation", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
+ async function handleSubmit(e: React.FormEvent) {
+  e.preventDefault();
 
-      if (!res.ok) throw new Error("Failed to submit");
-      toast.success("Submitted successfully 🎉");
-
-      // clear form
-      setForm({
-        title: "",
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        projectType: "",
-        pinCode: "",
-        budget: "",
-      });
-    } catch (err) {
-      console.error("Submission error:", err);
-      toast.error("Submission failed. Try again ❌");
+  // validation
+  for (const key in form) {
+    if (!form[key as keyof typeof form]) {
+      toast.error("Please fill all fields ❌");
+      return;
     }
   }
+
+  try {
+    const res = await fetch("/api/quotation", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    });
+
+    if (!res.ok) throw new Error("Failed to submit");
+    toast.success("Submitted successfully 🎉");
+
+    setForm({
+      title: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      projectType: "",
+      pinCode: "",
+      budget: "",
+    });
+  } catch (err) {
+    toast.error("Submission failed. Try again ❌");
+  }
+}
+
 
   return (
     <div className="flex items-center justify-center bg-gray-100 px-4">
@@ -72,8 +80,8 @@ function FormPage() {
                   className="border rounded-md px-4 py-2 w-full"
                 >
                   <option value="">Select</option>
-                  <option>Mr.</option>
-                  <option>Ms.</option>
+                  <option>Mr</option>
+                  <option>Ms</option>
                    <option>Other</option>
                 </select>
 
@@ -112,6 +120,8 @@ function FormPage() {
                   className="border rounded-md px-4 py-2 w-full"
                   value={form.phone}
                   onChange={handleChange}
+                  maxLength={10}
+                  minLength={10}
                 />
               </div>
             </div>
@@ -140,6 +150,8 @@ function FormPage() {
                   className="border rounded-md px-4 py-2 w-full"
                   value={form.pinCode}
                   onChange={handleChange}
+                  maxLength={6}
+                  
                 />
 
                 <input

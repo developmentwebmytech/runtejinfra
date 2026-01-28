@@ -28,9 +28,12 @@ export default function GetContact() {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [openId, setOpenId] = useState<string | null>(null); // row id for dialog
+  const [openId, setOpenId] = useState<string | null>(null);
 
-  // fetch list once on mount
+  // 🔹 pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
   useEffect(() => {
     (async () => {
       try {
@@ -46,15 +49,24 @@ export default function GetContact() {
     })();
   }, []);
 
-  // delete a row
   const deleteItem = async (id: string) => {
     const res = await fetch(`/api/contact/${id}`, { method: "DELETE" });
-    if (res.ok) setContacts((prev) => prev.filter((c) => c._id !== id));
+    if (res.ok) {
+      setContacts((prev) => prev.filter((c) => c._id !== id));
+    }
     setOpenId(null);
   };
 
   if (error) return <p className="p-4">Failed to load.</p>;
   if (loading) return <p className="p-4">Loading…</p>;
+
+  // 🔹 pagination logic
+  const totalPages = Math.ceil(contacts.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedContacts = contacts.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
 
   return (
     <Card className="m-6">
@@ -75,7 +87,7 @@ export default function GetContact() {
           </TableHeader>
 
           <TableBody>
-            {contacts.map((q) => (
+            {paginatedContacts.map((q) => (
               <TableRow key={q._id}>
                 <TableCell>{q.firstName} {q.lastName}</TableCell>
                 <TableCell>{q.email}</TableCell>
@@ -92,7 +104,6 @@ export default function GetContact() {
                     Delete
                   </Button>
 
-                  {/* confirmation dialog */}
                   <AlertDialog open={openId === q._id}>
                     <AlertDialogContent>
                       <AlertDialogHeader>
@@ -115,6 +126,33 @@ export default function GetContact() {
             ))}
           </TableBody>
         </Table>
+
+        {/* 🔹 pagination UI */}
+        {contacts.length > 10 && (
+          <div className="flex justify-center items-center gap-3 mt-6">
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((p) => p - 1)}
+            >
+              Prev
+            </Button>
+
+            <span className="text-sm">
+              Page {currentPage} of {totalPages}
+            </span>
+
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage((p) => p + 1)}
+            >
+              Next
+            </Button>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

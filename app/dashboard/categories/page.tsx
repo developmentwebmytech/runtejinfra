@@ -23,6 +23,10 @@ import { useToast } from "@/hooks/use-toast"
 import { DeleteAlertDialog } from "@/components/delete-alert-dialog"
 import Link from "next/link"
 import Image from "next/image"
+import { Search } from "lucide-react"
+import { Loader2 } from "lucide-react"
+
+
 
 interface Category {
   _id: string
@@ -45,6 +49,10 @@ export default function CategoriesPage() {
   const [totalPages, setTotalPages] = useState(1)
   const [searchQuery, setSearchQuery] = useState("")
   const [parentFilter, setParentFilter] = useState("")
+
+  const [debouncedSearch, setDebouncedSearch] = useState("")
+
+
   const limit = 10
   const { toast } = useToast()
 
@@ -61,6 +69,7 @@ export default function CategoriesPage() {
         limit: limit.toString(),
       })
       if (parentFilter) queryParams.append("parentCategory", parentFilter)
+      if (debouncedSearch) queryParams.append("search", debouncedSearch)
 
       const response = await fetch(`/api/admin/categories?${queryParams.toString()}`)
 
@@ -121,18 +130,31 @@ export default function CategoriesPage() {
   }
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchQuery)
+    }, 500) // wait 500ms after typing stops
+
+    return () => clearTimeout(timer)
+
+  }, [searchQuery])
+
+  useEffect(() => {
     fetchCategories()
-  }, [page, parentFilter])
+  }, [page, parentFilter, debouncedSearch])
 
   useEffect(() => {
     fetchParentCategories()
   }, [])
 
-  const filteredCategories = categories.filter((category) =>
-    category.name.toLowerCase().includes(searchQuery.toLowerCase())
+
+
+if (loading)
+  return (
+    <div className="flex h-[60vh] items-center justify-center">
+      <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+    </div>
   )
 
-  if (loading) return <div>Loading...</div>
 
   return (
     <div className="space-y-6 p-6">
@@ -143,7 +165,7 @@ export default function CategoriesPage() {
         </div>
         <Button asChild>
           <Link href="/dashboard/categories/new">
-            <Plus className="h-4 w-4 mr-2" />
+            <Plus className="h-4 w-4 mr-2 " />
             Add Category
           </Link>
         </Button>
@@ -157,13 +179,23 @@ export default function CategoriesPage() {
         <CardContent>
           {/* Filters */}
           <div className="flex flex-col md:flex-row gap-4 mb-4 items-start md:items-center">
-            <input
-              type="text"
-              placeholder="Search by name..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-md w-full max-w-sm text-sm"
-            />
+            <div className="relative w-full max-w-sm">
+              <input
+                type="text"
+                placeholder="Search by name..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md text-sm"
+              />
+
+              <button
+                onClick={() => setDebouncedSearch(searchQuery)}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              >
+                <Search className="h-4 w-4" />
+              </button>
+            </div>
+
 
             <select
               value={parentFilter}
@@ -198,7 +230,7 @@ export default function CategoriesPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredCategories.map((category) => (
+              {categories.map((category) => (
                 <TableRow key={category._id}>
                   <TableCell>
                     {category.icon ? (

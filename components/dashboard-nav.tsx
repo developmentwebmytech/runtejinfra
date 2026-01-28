@@ -87,15 +87,15 @@ export function DashboardNav({ setOpen }: DashboardNavProps) {
 
           <Separator />
 
-          <NavLink
+          {/* <NavLink
             href="/dashboard/job-applications"
             title="Jobs Applications"
             icon={Tag}
             pathname={pathname}
             setOpen={setOpen}
-          />
+          /> */}
 
-          <Separator />
+          {/* <Separator /> */}
 
           <NavLink
             href="/dashboard/quotation"

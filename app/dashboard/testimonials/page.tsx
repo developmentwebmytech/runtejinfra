@@ -38,6 +38,10 @@ export default function TestimonialsPage() {
   const [form, setForm] = useState({ name: "", quote: "" });
   const [editingId, setEditingId] = useState<string | null>(null);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+
   /* load */
   useEffect(() => {
     (async () => {
@@ -100,6 +104,14 @@ export default function TestimonialsPage() {
     if (res.ok) setList((l) => l.filter((t) => t._id !== id));
   };
 
+  const totalPages = Math.ceil(list.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedList = list.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
+
+
   return (
     <>
       <div className="flex justify-between items-center mb-6">
@@ -131,7 +143,8 @@ export default function TestimonialsPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {list.map((t) => (
+                {paginatedList.map((t) => (
+
                   <TableRow key={t._id}>
                     <TableCell className="font-medium">{t.name}</TableCell>
                     <TableCell className="max-w-xs truncate">
@@ -158,8 +171,38 @@ export default function TestimonialsPage() {
                 ))}
               </TableBody>
             </Table>
+
+            {list.length > 10 && (
+              <div className="flex justify-center items-center gap-3 mt-6">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage((p) => p - 1)}
+                >
+                  Prev
+                </Button>
+
+                <span className="text-sm">
+                  Page {currentPage} of {totalPages}
+                </span>
+
+                <Button
+                  size="sm"
+                  variant="outline"
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage((p) => p + 1)}
+                >
+                  Next
+                </Button>
+              </div>
+            )}
+
+
           </CardContent>
         </Card>
+
+
       )}
 
       <Dialog open={open} onOpenChange={setOpen}>

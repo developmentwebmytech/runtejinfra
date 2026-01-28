@@ -11,12 +11,19 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get("limit") || "10")
     const parentCategory = searchParams.get("parentCategory") // optional filter
     const skip = (page - 1) * limit
+    const search = searchParams.get("search")
+
 
     const filter: any = {}
 
     if (parentCategory) {
       filter.parentCategory = parentCategory
     }
+
+    if (search) {
+      filter.name = { $regex: search, $options: "i" }
+    }
+
 
     const categories = await Category.find(filter)
       .populate("parentCategory", "name")
@@ -25,7 +32,7 @@ export async function GET(request: NextRequest) {
       .limit(limit)
 
     const allcategories = await Category.find(filter)
-    
+
     const total = await Category.countDocuments(filter)
     const totalPages = Math.ceil(total / limit)
     // console.log("All Categories:", allcategories,total, totalPages, page, limit)

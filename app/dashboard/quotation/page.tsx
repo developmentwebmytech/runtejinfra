@@ -30,6 +30,10 @@ export default function QuotationPage() {
   const [quotations, setQuotations] = useState<Quotation[]>([]);
   const [selected, setSelected] = useState<Quotation | null>(null);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+
   // Load data
   useEffect(() => {
     (async () => {
@@ -52,6 +56,14 @@ export default function QuotationPage() {
     }
   }
 
+  const totalPages = Math.ceil(quotations.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedQuotations = quotations.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
+
+
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Quotation List</h1>
@@ -67,7 +79,8 @@ export default function QuotationPage() {
         </TableHeader>
 
         <TableBody>
-          {quotations.map((q) => (
+          {paginatedQuotations.map((q) => (
+
             <TableRow key={q._id}>
               <TableCell>{q.title} {q.firstName} {q.lastName}</TableCell>
               <TableCell>{q.email}</TableCell>
@@ -128,6 +141,31 @@ export default function QuotationPage() {
           ))}
         </TableBody>
       </Table>
+
+      <div className="flex justify-center items-center gap-3 mt-6">
+        <Button
+          variant="outline"
+          size="sm"
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage((p) => p - 1)}
+        >
+          Prev
+        </Button>
+
+        <span className="text-sm">
+          Page {currentPage} of {totalPages}
+        </span>
+
+        <Button
+          variant="outline"
+          size="sm"
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage((p) => p + 1)}
+        >
+          Next
+        </Button>
+      </div>
+
     </div>
   );
 }
