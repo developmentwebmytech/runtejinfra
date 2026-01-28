@@ -137,7 +137,7 @@ export default function Navbar() {
               <div className="flex items-center justify-between p-4 border-b border-gray-200 md:border-none">
                 <Link href="/" onClick={() => setIsOpen(false)} className="flex-shrink-0">
                   <div className="w-28 relative h-12 cursor-pointer">
-                    <Image src="/tlogo.png" alt="Logo" fill style={{ objectFit: "contain" }} priority />
+                    <Image src="/tlogo2.png" alt="Logo" fill style={{ objectFit: "contain" }} priority />
                   </div>
                 </Link>
                 <button

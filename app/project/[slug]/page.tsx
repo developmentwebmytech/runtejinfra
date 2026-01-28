@@ -46,7 +46,7 @@ export default function ProjectPage() {
         const res = await fetch(`/api/project/${slug}`, { cache: "no-store" })
         if (!res.ok) return setProject(null)
         const data = await res.json()
-      // console.log(data);
+        // console.log(data);
         setProject(data)
       } catch (error) {
         console.error("❌ Error loading project:", error)
@@ -75,12 +75,13 @@ export default function ProjectPage() {
         </div>
 
         <div className="absolute bottom-10 left-4 md:left-16 text-white max-w-[90%]">
-          <h1 className="text-3xl font-bold bg-black/50 py-1 px-2 rounded">{project.name}</h1>
-          <p className="flex items-center gap-2 mt-2 text-sm md:text-base bg-black/50 p-2 rounded">
+          <h2 className="text-3xl font-bold bg-black/50 py-1 px-2 rounded">{project.name}</h2>
+          <p className="inline-flex items-center gap-2 mt-2 text-sm md:text-base bg-black/50 p-2 rounded">
             <FaMapMarkerAlt />
             {project.address}
           </p>
         </div>
+
       </div>
 
       <div className="flex flex-col lg:flex-row gap-6 px-4 md:px-16 mt-10 mb-20">
@@ -117,7 +118,15 @@ export default function ProjectPage() {
 
           <div className="bg-white p-6 rounded shadow">
             <h2 className="text-xl font-semibold mb-4">Project Description</h2>
-            <p className="text-gray-600 whitespace-pre-line">{project.description}</p>
+            {project.description ? (
+              <div
+                className="quill-content text-gray-700 "
+                dangerouslySetInnerHTML={{ __html: project.description }}
+              />
+
+            ) : (
+              <p className="text-gray-600">{project.description}</p>
+            )}
           </div>
         </div>
 

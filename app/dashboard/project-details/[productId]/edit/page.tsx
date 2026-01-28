@@ -571,13 +571,12 @@ export default function EditProduct() {
             {/* Description Field */}
             <div className="space-y-2">
               <Label htmlFor="description">Description</Label>
-              <textarea
-                id="description"
-                name="description"
+              <ReactQuill
                 value={formData.description || ""}
-                onChange={(e) => setFormData((prev) => (prev ? { ...prev, description: e.target.value } : null))}
+                onChange={(value) => handleQuillChange("description", value)}
                 placeholder="Enter product description..."
-                className="w-full h-32 px-3 py-2 border border-input rounded-md bg-white text-sm resize-vertical"
+                theme="snow"
+                className="bg-white rounded-md border border-input"
               />
             </div>
 

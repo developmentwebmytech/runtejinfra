@@ -273,8 +273,16 @@ export default function ProductView() {
           <CardHeader>
             <h3 className="font-semibold text-gray-900">Description</h3>
           </CardHeader>
-          <CardContent className="overflow-auto max-h-96">
-            <p className="text-gray-700 whitespace-pre-wrap break-words">{product.description}</p>
+          <CardContent className="container overflow-y-auto  max-h-96">
+            {product.description ? (
+              <div
+                className="prose prose-sm max-w-none text-gray-700 break-words "
+                dangerouslySetInnerHTML={{ __html: product.description }}
+              />
+
+            ) : (
+              <p className="text-gray-600">{product.description}</p>
+            )}
           </CardContent>
         </Card>
       )}
@@ -284,7 +292,7 @@ export default function ProductView() {
           <CardHeader>
             <h3 className="font-semibold text-gray-900">About</h3>
           </CardHeader>
-          <CardContent className="container overflow-x-hidden">
+          <CardContent className="container overflow-y-auto max-h-96">
             <div
               className="prose prose-sm max-w-none text-gray-700 break-words"
               dangerouslySetInnerHTML={{ __html: product.about }}
@@ -299,9 +307,9 @@ export default function ProductView() {
           <CardHeader>
             <h3 className="font-semibold text-gray-900">Feature</h3>
           </CardHeader>
-          <CardContent className="overflow-auto max-h-96">
+          <CardContent className="container overflow-y-auto max-h-96 ">
             <div
-              className="prose prose-sm max-w-none text-gray-700"
+              className="prose prose-sm max-w-none text-gray-700 break-words"
               dangerouslySetInnerHTML={{ __html: product.feature }}
             />
           </CardContent>
