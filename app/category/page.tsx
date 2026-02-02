@@ -67,7 +67,8 @@ export default function CategoriesPage() {
   return (
     <div>
       {/* Header */}
-      <div className="container mx-auto bg-[#bceb9757] px-4 py-8 ">
+      <div className="bg-green-100">
+      <div className="container mx-auto  px-4 py-8 ">
         <div className="">
           <h2 className="text-3xl font-semibold">Property Categories</h2>
           <p className="text-sm text-gray-500 mt-1">Home / Categories</p>
@@ -75,6 +76,7 @@ export default function CategoriesPage() {
             Explore our main property categories to find what you are looking for.
           </p>
         </div>
+      </div>
       </div>
 
       {/* Grid */}

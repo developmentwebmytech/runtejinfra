@@ -68,15 +68,17 @@ export default function ProjectPage() {
         className="relative h-[80vh] bg-cover bg-center px-4 md:px-16"
         style={{ backgroundImage: `url(${project.imageUrl})` }}
       >
-        <div className="absolute top-5 left-5 bg-black text-white text-xs px-3 py-1 rounded">PROJECT SHOWCASE</div>
+        {/* overlay */}
+        <div className="absolute inset-0 bg-black/30"></div>
+        <div className="absolute top-5 left-5  text-white text-xs px-3 py-1 rounded">PROJECT SHOWCASE</div>
 
-        <div className="absolute top-20 p-2 bg-black/50 rounded left-4 md:left-16 text-white text-sm flex gap-2 items-center">
+        <div className="absolute top-20 p-2 rounded left-4 md:left-16 text-white text-sm flex gap-2 items-center">
           <span>Home</span> / <span>Projects</span> / <span className="font-semibold">{project.name}</span>
         </div>
 
         <div className="absolute bottom-10 left-4 md:left-16 text-white max-w-[90%]">
-          <h2 className="text-3xl font-bold bg-black/50 py-1 px-2 rounded">{project.name}</h2>
-          <p className="inline-flex items-center gap-2 mt-2 text-sm md:text-base bg-black/50 p-2 rounded">
+          <h2 className="text-3xl font-bold  py-1 px-2 rounded">{project.name}</h2>
+          <p className="inline-flex items-center gap-2 mt-2 text-sm md:text-base  p-2 rounded">
             <FaMapMarkerAlt />
             {project.address}
           </p>

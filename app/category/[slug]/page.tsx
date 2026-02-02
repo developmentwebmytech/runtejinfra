@@ -90,9 +90,10 @@ export default function CategoriesPage() {
   }
 
   return (
-    <div className="container mx-auto pb-5">
+    <div className="">
+      <div className="bg-green-100">
       {parentCategory && (
-        <div className="bg-green-100 px-4 py-6  mb-10">
+        <div className="container mx-auto  py-6  mb-10">
           <h1 className="text-3xl font-semibold mb-2">
             {parentCategory.name}
           </h1>
@@ -104,7 +105,8 @@ export default function CategoriesPage() {
           </p>
         </div>
       )}
-
+      </div>
+      <div className="container mx-auto pb-5">
       {categories.length === 0 ? (
         <p className="text-center text-gray-500">No categories found</p>
       ) : (
@@ -152,6 +154,7 @@ export default function CategoriesPage() {
           })}
         </div>
       )}
+    </div>
     </div>
   )
 }
