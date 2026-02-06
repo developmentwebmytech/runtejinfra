@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { toast } from "sonner"
 
 export default function AdminMilestonePage() {
   const [form, setForm] = useState({
@@ -41,9 +42,9 @@ export default function AdminMilestonePage() {
     });
 
     if (res.ok) {
-      alert("Milestone updated successfully!");
+      toast.success("Milestone updated successfully.");
     } else {
-      alert("Failed to update milestone.");
+      toast.error("Failed to update milestone.");
     }
   };
 

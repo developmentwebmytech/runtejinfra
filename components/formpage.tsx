@@ -1,6 +1,14 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
+
+
+interface Category {
+  _id: string
+  name: string
+  parentCategory: string | null
+}
+
 
 function FormPage() {
   const [form, setForm] = useState({
@@ -13,6 +21,7 @@ function FormPage() {
     pinCode: "",
     budget: "",
   });
+  const [projectCategories, setProjectCategories] = useState([]);
 
   // change
   function handleChange(
@@ -20,6 +29,26 @@ function FormPage() {
   ) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+          try {
+            const res = await fetch("/api/admin/categories");
+            const data = await res.json();
+            // console.log(data)
+    
+            // 👇 Filter categories with parentCategory === null
+            const parentCategories = (data.allcategories || []).filter(
+              (cat: Category) => cat.parentCategory === null
+            );
+            // console.log("Parent Categories:", parentCategories);
+            setProjectCategories(parentCategories);
+          } catch (err) {
+            console.error("Failed to load categories", err);
+          }
+        };
+        fetchCategories();
+      }, []);
 
   // submit
  async function handleSubmit(e: React.FormEvent) {
@@ -138,9 +167,11 @@ function FormPage() {
                   className="border rounded-md px-4 py-2 w-full"
                 >
                   <option value="">Project Type</option>
-                  <option>Residential</option>
-                  <option>Commercial</option>
-                  <option>Industrial</option>
+                  {projectCategories.map((cat: Category) => (
+                    <option key={cat._id} value={cat.name}>
+                      {cat.name}
+                    </option> 
+                  ))}
                 </select>
 
                 <input

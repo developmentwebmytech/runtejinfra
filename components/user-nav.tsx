@@ -12,7 +12,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { LogOut } from "lucide-react" // ✅ Only keep used icon
+import { LogOut, User } from "lucide-react" // ✅ Only keep used icon
+import { useRouter } from "next/navigation"
 
 interface UserNavProps {
   user: {
@@ -29,6 +30,8 @@ export function UserNav({ user }: UserNavProps) {
         .map((n) => n[0].toUpperCase())
         .join("")
     : "U"
+
+  const router = useRouter()  
 
   return (
     <DropdownMenu>
@@ -51,7 +54,10 @@ export function UserNav({ user }: UserNavProps) {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={() => router.push("/dashboard/profile" )}>
+          <User className="mr-2 h-4 w-4" />
+          <span>Profile</span>
+        </DropdownMenuItem>
         <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
